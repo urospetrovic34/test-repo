@@ -1,0 +1,28 @@
+nav {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100px;
+  }
+  
+.page {
+  display: flex;
+  column-gap: 20px;
+}
+
+.side-menu-button {
+  display: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+
+  .side-menu-button {
+    display: flex;
+  }
+
+  .page {
+    display: none;
+  }
+}

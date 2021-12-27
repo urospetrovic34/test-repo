@@ -1,0 +1,32 @@
+.side-menu-modal {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    position: fixed;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .side-menu {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+  }
+  
+  .close-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      color: white;
+  }
+  
+  .menu-option {
+      color: white;
+      font-weight: 600;
+  }
