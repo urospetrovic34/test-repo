@@ -1,4 +1,4 @@
-import {createStore,compose, applyMiddleware} from 'redux';
+import {createStore,/*,compose,*/ applyMiddleware} from 'redux';
 import rootReducer from './reducers'
 import {persistReducer} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
