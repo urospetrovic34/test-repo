@@ -4,6 +4,16 @@ import {loginSuccess,loginFail,registerSuccess,registerFail} from '../actions/us
 import {LOGIN_USER,/*,LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_SUCCESS,REGISTER_SUCCESS,REGISTER_FAIL,USER_LOADED,USER_LOADING,*/ REGISTER_USER} from '../actions/types'
 import {getErrors} from '../actions/errorActions'
 
+axios.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token')
+    if (token){
+        config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+}, error => {
+    console.log(error)
+})
+
 const login = async (identifier,password) => {
     const response = await axios.post('https://internship-hr-app.herokuapp.com/api/auth/local',{
         identifier,
@@ -21,26 +31,17 @@ const register = async (email,password,username) => {
     return {payload: response.data}
 }
 
-const createNewProfile = async (name,user,userRole) => {
+const createNewProfile = async (name,user,userRole,company) => {
     const response = await axios.post('https://internship-hr-app.herokuapp.com/api/profiles',{
           "data": {
             name,
             user,
-            userRole
+            userRole,
+            company
           }
     })
     return {payload: response.data}
 }
-
-axios.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token')
-    if (token){
-        config.headers.Authorization = `Bearer ${token}`
-    }
-    return config
-}, error => {
-    console.log(error)
-})
 
 export function* loginWithCredentials({payload:{identifier,password}}){
     try {
@@ -58,7 +59,7 @@ export function* registerWithCredentials({payload:{email,password,username}}){
         const user = yield register(email,password,username)
         console.log(user)
         yield put(registerSuccess(user))
-        yield createNewProfile(username,user.payload.user.id,"company_user")
+        yield createNewProfile(username,user.payload.user.id,"company_user",5)
     } catch (error) {
         yield put(getErrors(error.response.data.error.message,error.response.status,'REGISTER_FAIL'))
         yield put(registerFail(error))
