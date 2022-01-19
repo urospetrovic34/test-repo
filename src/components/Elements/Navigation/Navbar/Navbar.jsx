@@ -42,7 +42,7 @@ export const Navbar = () => {
                     </div>
                 )}
                 <div className="nav-burger">
-                    <i class="fa fa-2x fa-bars nav-burger-icon" onClick={handleSideNav} />
+                    <i className="fa fa-2x fa-bars nav-burger-icon" onClick={handleSideNav} />
                 </div>
             </div>
             {visibleSidenav ? <Sidenav handleSideNav={handleSideNav}/> : null}

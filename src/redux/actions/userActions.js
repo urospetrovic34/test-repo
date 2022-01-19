@@ -21,7 +21,7 @@ export const logout = () => ({
 
 export const registerUser = (credentials) => ({
     type:REGISTER_USER,
-    payload:credentials
+    payload:(credentials)
 })
 
 export const registerSuccess = (user) => ({

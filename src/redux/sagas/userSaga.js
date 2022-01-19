@@ -1,21 +1,12 @@
-import axios from 'axios'
+import axiosConfig from '../../config/axiosConfig'
+import axiosPublicConfig from '../../config/axiosPublicConfig'
 import {all, call, put, takeLatest} from 'redux-saga/effects'
 import {loginSuccess,loginFail,registerSuccess,registerFail} from '../actions/userActions'
 import {LOGIN_USER,/*,LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_SUCCESS,REGISTER_SUCCESS,REGISTER_FAIL,USER_LOADED,USER_LOADING,*/ REGISTER_USER} from '../actions/types'
 import {getErrors} from '../actions/errorActions'
 
-axios.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token')
-    if (token){
-        config.headers.Authorization = `Bearer ${token}`
-    }
-    return config
-}, error => {
-    console.log(error)
-})
-
 const login = async (identifier,password) => {
-    const response = await axios.post('https://internship-hr-app.herokuapp.com/api/auth/local',{
+    const response = await axiosPublicConfig.post('/auth/local',{
         identifier,
         password
     })
@@ -23,21 +14,27 @@ const login = async (identifier,password) => {
 }
 
 const register = async (email,password,username) => {
-    const response = await axios.post('https://internship-hr-app.herokuapp.com/api/auth/local/register',{
+    const response = await axiosPublicConfig.post('/auth/local/register',{
         email,
         password,
-        username,
+        username
     })
     return {payload: response.data}
 }
 
-const createNewProfile = async (name,user,userRole,company) => {
-    const response = await axios.post('https://internship-hr-app.herokuapp.com/api/profiles',{
+const addProfilePicture = async (formData) => {
+    const response = await axiosConfig.post('/upload',formData/*,{headers:{'Content-Type': 'multipart/form-data'}}*/)
+    return {payload: response.data}
+}
+
+const createNewProfile = async (name,user,userRole,company,profilePhoto) => {
+    const response = await axiosConfig.post('/profiles',{
           "data": {
             name,
             user,
             userRole,
-            company
+            company,
+            profilePhoto
           }
     })
     return {payload: response.data}
@@ -54,16 +51,20 @@ export function* loginWithCredentials({payload:{identifier,password}}){
     }
 }
 
-export function* registerWithCredentials({payload:{email,password,username}}){
+export function* registerWithCredentials({payload:{email,password,username,formData}}){
+    console.log(formData)
     try {
         const user = yield register(email,password,username)
-        console.log(user)
         yield put(registerSuccess(user))
-        yield createNewProfile(username,user.payload.user.id,"company_user",5)
+        try {
+            const image = yield addProfilePicture(formData)
+            yield createNewProfile(username,user.payload.user.id,"company_user",5,image.payload[0].id)
+        } catch (error) {
+            console.log(error)        
+        }
     } catch (error) {
         yield put(getErrors(error.response.data.error.message,error.response.status,'REGISTER_FAIL'))
         yield put(registerFail(error))
-        console.log(error)
     }
 }
 

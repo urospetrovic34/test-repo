@@ -22,7 +22,7 @@ export const Sidenav = (props) => {
     return (
         <div className="side-nav">
             <div className="side-nav-exit">
-                <i class="fa fa-3x fa-times side-nav-exit-icon" onClick={props.handleSideNav}/>
+                <i className="fa fa-3x fa-times side-nav-exit-icon" onClick={props.handleSideNav}/>
             </div>
                 {user.isAuthenticated ? (
                     <div className="side-nav-items">

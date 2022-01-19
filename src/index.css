@@ -58,7 +58,7 @@ input::placeholder{
 
 .submit-button,
 .file-upload-button{
-  margin-top: 25px;
+  margin-top: 10px;
   height:40px;
   cursor: pointer;
   background-color:#001628;
