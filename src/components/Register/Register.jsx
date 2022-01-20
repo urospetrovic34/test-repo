@@ -13,7 +13,7 @@ export const Register = () => {
 
     const [fileName,setFileName] = useState("Choose file")
     const user = useSelector((state) => state.user)
-    const [credentials, setCredentials] = useState({ email: '', password: '', username:'',formData:null })
+    const [credentials, setCredentials] = useState({ email: '', password: '', username:'',formData:null,userRole:'' })
 
     const fileInput = useRef(null)
 
@@ -43,6 +43,19 @@ export const Register = () => {
         setCredentials({ ...credentials,formData: formData})
     }
 
+    const handleRoleChange = (event) => {
+        setCredentials({ ...credentials,userRole: event.value})
+    }
+
+    const roleOptions = [
+        {value:'company_user',label:'Company User'},
+        {value:'company_admin',label:'Company Admin'}
+    ]
+
+    useEffect(()=>{
+        console.log(credentials)
+    })
+
     useEffect(()=>{
         if(user.isAuthenticated)
         {
@@ -62,11 +75,11 @@ export const Register = () => {
                 <input type="password" placeholder="Password" name="password" onChange={handleCredentialsChange}/>
                 <label htmlFor="">Company</label>
                 <SelectCompany/>
-                <label htmlFor="">User role</label>
-                <SelectRole/>
+                <label htmlFor="" className="role-label">User role</label>
+                <SelectRole options={roleOptions} handleRoleChange={handleRoleChange}/>
                 <label htmlFor="">Image</label>
                 <FileUpload fileName={fileName} fileInput={fileInput} handleFileClick={handleFileClick} handleFileChange={handleFileChange}/>
-                <button className="submit-button" onClick={handleRegisterSubmit}>Submit</button>
+                <button className="submit-button" onClick={handleRegisterSubmit}>Register</button>
             </form>
         </div>
     )

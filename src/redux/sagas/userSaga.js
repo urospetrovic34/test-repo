@@ -57,6 +57,7 @@ export function* registerWithCredentials({payload:{email,password,username,formD
         const user = yield register(email,password,username)
         yield put(registerSuccess(user))
         try {
+            //OVDE MORA CALL DA IDE, U SUPROTNOM NECE DA RADI
             const image = yield call(addProfilePicture,formData)
             yield createNewProfile(username,user.payload.user.id,"company_user",5,image.payload[0].id)
         } catch (error) {

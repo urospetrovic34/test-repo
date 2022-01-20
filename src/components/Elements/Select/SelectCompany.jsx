@@ -1,19 +1,37 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import useCompanies from '../../../hooks/useCompanies'
 import './Select.css'
+import { Link } from 'react-router-dom'
+import { customStyles } from './customStyles'
+import Select from 'react-select'
 
 export const SelectCompany = () => {
     const companies = useCompanies()
+    const companyOptions = []
+
+    if(companies.status === 'success'){
+        companies.data.data.data.map((company,index) => companyOptions.push({"value":company.id,"label":company.attributes.name}))
+    }
+
+    useEffect(()=>{
+        console.log(companyOptions)
+    })
 
     return (
         <div>
-        {companies.status === 'success' && (
-            <div className="select">
-                <select>
-                    {companies.data.data.data.map((company,index) => (<option value={company.attributes.name} key={index}>{company.attributes.name}</option>))}
-                </select>
-            </div>
+            {companies.status === 'loading' && (
+                <div>
+                    <Select isDisabled={true} className="custom-select" styles={customStyles}/>
+                </div>
             )}
+            {companies.status === 'success' && (
+                <div>
+                <Select defaultValue={companyOptions[0]} options={companyOptions} className="custom-select" styles={customStyles}/>
+                </div>
+            )}
+            <div className="small-text-right">
+                <Link to="/" className="small-text-anchor">Add a company?</Link>
+            </div>
         </div>
     )
 }

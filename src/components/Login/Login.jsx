@@ -65,7 +65,7 @@ export const Login = () => {
                 <input className={errorMessages.identifier ? "error-input" : ""} name="identifier" type="text" placeholder="Email" onChange={handleCredentialsChange} />
                 <label htmlFor="">Password <span>{errorMessages.password}</span></label>
                 <input className={errorMessages.password ? "error-input" : ""} name="password" type="password" placeholder="Password" onChange={handleCredentialsChange} />
-                <button className="submit-button" onClick={handleLoginSubmit}>Submit</button>
+                <button className="submit-button" onClick={handleLoginSubmit}>Login</button>
             </form>
         </div>
     )
