@@ -13,7 +13,7 @@ export const Register = () => {
 
     const [fileName,setFileName] = useState("Choose file")
     const user = useSelector((state) => state.user)
-    const [credentials, setCredentials] = useState({ email: '', password: '', username:'',formData:null,userRole:'' })
+    const [credentials, setCredentials] = useState({ email: '', password: '', username:'',formData:null,userRole:'',company:'' })
 
     const fileInput = useRef(null)
 
@@ -47,6 +47,10 @@ export const Register = () => {
         setCredentials({ ...credentials,userRole: event.value})
     }
 
+    const handleCompanyChange = (event) => {
+        setCredentials({ ...credentials,company: event.value})
+    }
+
     const roleOptions = [
         {value:'company_user',label:'Company User'},
         {value:'company_admin',label:'Company Admin'}
@@ -74,7 +78,7 @@ export const Register = () => {
                 <label htmlFor="">Password</label>
                 <input type="password" placeholder="Password" name="password" onChange={handleCredentialsChange}/>
                 <label htmlFor="">Company</label>
-                <SelectCompany/>
+                <SelectCompany handleCompanyChange={handleCompanyChange}/>
                 <label htmlFor="" className="role-label">User role</label>
                 <SelectRole options={roleOptions} handleRoleChange={handleRoleChange}/>
                 <label htmlFor="">Image</label>

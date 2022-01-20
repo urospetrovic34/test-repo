@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { customStyles } from './customStyles'
 import Select from 'react-select'
 
-export const SelectCompany = () => {
+export const SelectCompany = (props) => {
     const companies = useCompanies()
     const companyOptions = []
 
@@ -26,7 +26,7 @@ export const SelectCompany = () => {
             )}
             {companies.status === 'success' && (
                 <div>
-                <Select defaultValue={companyOptions[0]} options={companyOptions} className="custom-select" styles={customStyles}/>
+                <Select defaultValue={companyOptions[0]} options={companyOptions} className="custom-select" styles={customStyles} onChange={props.handleCompanyChange}/>
                 </div>
             )}
             <div className="small-text-right">
