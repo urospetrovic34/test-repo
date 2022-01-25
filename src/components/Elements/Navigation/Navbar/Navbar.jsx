@@ -8,7 +8,7 @@ import {logout} from '../../../../redux/actions/userActions'
 
 export const Navbar = () => {
 
-    const user = useSelector((state) => state.user)
+    const {user,type} = useSelector((state) => state.user)
     const dispatch = useDispatch();
 
     const [visibleSidenav, setVisibleSidenav] = useState(false)
@@ -25,13 +25,14 @@ export const Navbar = () => {
                         <img src={navLogo} alt="navigation-logo" className="nav-logo-icon" />
                     </Link>
                 </div>
-                {user.isAuthenticated ? (
+                {user && 
                     <div className="nav-items">
                         <div className="nav-item">
                             <p className="nav-option" onClick={() => dispatch(logout())}>Logout</p>   
                         </div>
                     </div>
-                ) : (
+                }
+                {!user && !type && 
                     <div className="nav-items">
                         <div className="nav-item">
                             <Link to="/login" className="nav-item-anchor">Login</Link>
@@ -40,7 +41,7 @@ export const Navbar = () => {
                             <Link to="/register" className="nav-item-anchor">Register</Link>
                         </div>
                     </div>
-                )}
+                }
                 <div className="nav-burger">
                     <i className="fa fa-2x fa-bars nav-burger-icon" onClick={handleSideNav} />
                 </div>

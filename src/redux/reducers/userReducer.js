@@ -1,9 +1,10 @@
-import {LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_SUCCESS,REGISTER_SUCCESS,REGISTER_FAIL/*,USER_LOADED,USER_LOADING*/} from '../actions/types'
+import {LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_SUCCESS,REGISTER_SUCCESS,REGISTER_FAIL/*,USER_LOADED,USER_LOADING*/,SET_COMPANY_USER,SET_COMPANY_ADMIN,SET_COMPANY} from '../actions/types'
 
 const initialState = {
     user:null,
-    isAuthenticated:false,
-    token:localStorage.getItem('token')
+    token:localStorage.getItem('token'),
+    type:null,
+    company:null
 }
 
 const userReducer = (state = initialState, action) => {
@@ -13,8 +14,7 @@ const userReducer = (state = initialState, action) => {
             localStorage.setItem('token',action.payload.payload.jwt)
             return{
                 ...state,
-                isAuthenticated:true,
-                user:action.payload.payload.user,
+                user:action.payload.payload.user.id,
                 token:localStorage.getItem('token')
             }
         case LOGIN_FAIL:
@@ -22,7 +22,23 @@ const userReducer = (state = initialState, action) => {
         case LOGOUT_SUCCESS:
             localStorage.removeItem('token')
             return initialState
+        case SET_COMPANY_USER:
+            return{
+                ...state,
+                type:"companyUser"
+            }
+        case SET_COMPANY_ADMIN:
+            return{
+                ...state,
+                type:"companyAdmin"
+            }
+        case SET_COMPANY:
+            return{
+                ...state,
+                company:action.payload
+            }
         default:
+            localStorage.removeItem('token')
             return state;
     }
 }

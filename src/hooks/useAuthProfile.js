@@ -3,7 +3,7 @@ import axiosConfig from '../config/axiosConfig'
 import { useSelector } from "react-redux";
 
 export const getAuthProfile = async (id) => {
-    const response = await axiosConfig.get(`/api/profiles?filters[user][id][$eq]=${id.queryKey[1]}`)
+    const response = await axiosConfig.get(`/profiles?filters[user][id][$eq]=${id.queryKey[1]}`)
     return response
 }
 

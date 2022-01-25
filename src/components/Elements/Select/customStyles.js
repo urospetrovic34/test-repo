@@ -11,11 +11,13 @@ export const customStyles = {
     valueContainer: (provided, state) => ({
         ...provided,
         padding:'0px',
-        marginLeft:'7px',
+        marginLeft:'5px',
+        //DRUGACIJE NIJE HTELO DA POMERA
+        //MORAO SAM MARGIN TOP PA U MINUS
+        marginTop:'-5px'
     }),
     input: (provided, state) => ({
         ...provided,
-        padding: '0px',
     }),
     indicatorSeparator: (state) => ({
         display: 'none',
@@ -40,11 +42,15 @@ export const customStyles = {
     }),
     menu:(provided, state) => ({
         ...provided,
-        padding:'0px'
+        padding:'0px',
+        maxHeight: '225px',
+        overflow: 'hidden',
     }),
     menuList:(provided, state) => ({
         ...provided,
         padding:'0px',
         borderRadius: '2px',
+        maxHeight: '225px',
+        overflow: 'hidden',
     })
 }

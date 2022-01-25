@@ -1,4 +1,4 @@
-import {LOGIN_USER,LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_SUCCESS,REGISTER_USER,REGISTER_SUCCESS,REGISTER_FAIL/*,USER_LOADED,USER_LOADING*/} from './types'
+import {LOGIN_USER,LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_SUCCESS,REGISTER_USER,REGISTER_SUCCESS,REGISTER_FAIL/*,USER_LOADED,USER_LOADING*/,SET_COMPANY_USER,SET_COMPANY_ADMIN,SET_COMPANY} from './types'
 
 export const loginUser = (credentials) => ({
     type:LOGIN_USER,
@@ -32,4 +32,17 @@ export const registerSuccess = (user) => ({
 export const registerFail = (error) => ({
     type:REGISTER_FAIL,
     payload:error
+})
+
+export const setCompany = (id) => ({
+    type:SET_COMPANY,
+    payload:id
+})
+
+export const setCompanyUser = () => ({
+    type:SET_COMPANY_USER
+})
+
+export const setCompanyAdmin = () => ({
+    type:SET_COMPANY_ADMIN
 })

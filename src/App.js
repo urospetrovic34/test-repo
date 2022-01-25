@@ -8,31 +8,34 @@ import {
 import { Login } from "./components/Login/Login";
 import { Register } from "./components/Register/Register";
 import { Team } from "./components/Team/Team";
-//import useAuthProfile from "./hooks/useAuthProfile";
+import { PendingTeam } from "./components/Team/PendingTeam";
+import {GuestRoute} from './routes/GuestRoute'
+import {OmniRoute} from './routes/OmniRoute'
+import {UserRoute} from './routes/UserRoute'
+import {AdminRoute} from './routes/AdminRoute'
+import {PersistGate} from 'redux-persist/integration/react'
+import {persistStore} from 'redux-persist'
+import store from './redux/store'
 
 function App() {
 
-  /* const ProtectedRoute = ({ element: Component, ...otherProps }) => {
-     const isAuth = user.isAuthenticated
-     return (
-       <Route {...otherProps} render={(props) => (isAuth ? <Component {...props} /> : <Navigate to="/" />)} />
-     )
-   }*/
-
-  //const data = useAuthProfile();
-  //console.log(data);
+  const persistor = persistStore(store)
 
   return (
+    <PersistGate loading={null} persistor={persistor}>
       <Router>
         <div className="wrapper">
           <Navbar />
           <Routes>
-            <Route exact path="/" element={<Team />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/register" element={<Register />} />
+            <Route exact path="/login" element={<GuestRoute redirect="/admin"><Login/></GuestRoute>} />
+            <Route exact path="/register" element={<GuestRoute redirect="/admin"><Register/></GuestRoute>} />
+            <Route exact path="/team" element={<UserRoute redirect="/login"><Team/></UserRoute>} />
+            <Route exact path="/team/pending" element={<AdminRoute redirect="/login" redirectUser="/team"><PendingTeam/></AdminRoute>} />
+            <Route path="*" element={<OmniRoute></OmniRoute>} />
           </Routes>
         </div>
       </Router>
+    </PersistGate>
   );
 }
 

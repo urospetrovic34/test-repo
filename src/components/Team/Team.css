@@ -1,0 +1,20 @@
+.user-panel{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding:15px;
+    height:1px;
+    gap:15px;
+}
+
+.card-panel{
+    display: flex;
+    gap:15px;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width:920px){
+    .user-panel{
+        width:100%;
+    }    
+}

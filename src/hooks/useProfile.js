@@ -2,8 +2,7 @@ import {useQuery} from 'react-query'
 import axiosConfig from '../config/axiosConfig'
 
 export const getProfile = async (id) => {
-    const response = await axiosConfig.get(`/api/profiles/${id}?populate=*`)
-    console.log(response)
+    const response = await axiosConfig.get(`/profiles/${id}?populate=*`)
     return response
 }
 
