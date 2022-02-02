@@ -3,6 +3,7 @@ import './Card.css'
 import {useSelector} from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash,faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import {Link} from 'react-router-dom'
 
 export const Card = (props) => {
 
@@ -31,7 +32,13 @@ export const Card = (props) => {
                     user.user && user.type==="companyAdmin" && (
                         <div className="card-row-two">
                             <div className="card-row-two-col-one">
-                                <button><FontAwesomeIcon icon={ faPencilAlt }/></button>
+                                {
+                                    props.pageType === "pending" ? (
+                                        <Link to="/"><button><FontAwesomeIcon icon={ faPencilAlt }/></button></Link>
+                                    ) : props.pageType === "published" && (
+                                        <Link to="/"><button>ABC</button></Link>
+                                    )
+                                }
                             </div>
                             <div className="card-row-two-col-two">
                                 <button><FontAwesomeIcon icon={ faTrash }/></button>

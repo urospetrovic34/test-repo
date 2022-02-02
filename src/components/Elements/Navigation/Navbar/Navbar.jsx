@@ -38,7 +38,7 @@ export const Navbar = () => {
                             <Link to="/login" className="nav-item-anchor">Login</Link>
                         </div>
                         <div className="nav-item">
-                            <Link to="/register" className="nav-item-anchor">Register</Link>
+                            <Link to="/join" className="nav-item-anchor">Register</Link>
                         </div>
                     </div>
                 }

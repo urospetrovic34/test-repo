@@ -9,7 +9,12 @@
 
 .card-panel{
     display: flex;
-    gap:15px;
+    width:100%;
+}
+
+.card-panel-centre{
+    display: flex;
+    gap:40px;
     flex-wrap: wrap;
 }
 
@@ -17,4 +22,10 @@
     .user-panel{
         width:100%;
     }    
+    .card-panel-centre{
+        width:640px;
+    }
+    .card-panel{
+        justify-content: center;
+    }
 }

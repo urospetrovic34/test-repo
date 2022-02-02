@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { Login } from "./components/Login/Login";
 import { Register } from "./components/Register/Register";
+import { AddCompany } from "./components/AddCompany/AddCompany";
 import { Team } from "./components/Team/Team";
 import { PendingTeam } from "./components/Team/PendingTeam";
 import {GuestRoute} from './routes/GuestRoute'
@@ -28,7 +29,8 @@ function App() {
           <Navbar />
           <Routes>
             <Route exact path="/login" element={<GuestRoute redirect="/admin"><Login/></GuestRoute>} />
-            <Route exact path="/register" element={<GuestRoute redirect="/admin"><Register/></GuestRoute>} />
+            <Route exact path="/join" element={<GuestRoute redirect="/admin"><Register/></GuestRoute>} />
+            <Route exact path="/join/company" element={<GuestRoute redirect="/admin"><AddCompany/></GuestRoute>} />
             <Route exact path="/team" element={<UserRoute redirect="/login"><Team/></UserRoute>} />
             <Route exact path="/team/pending" element={<AdminRoute redirect="/login" redirectUser="/team"><PendingTeam/></AdminRoute>} />
             <Route path="*" element={<OmniRoute></OmniRoute>} />

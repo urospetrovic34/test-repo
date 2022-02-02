@@ -36,7 +36,7 @@ export const Sidenav = (props) => {
                             <Link to="/login" className="side-nav-item-anchor" onClick={props.handleSideNav}>Login</Link>
                         </div>
                         <div className="side-nav-item">
-                            <Link to="/register" className="side-nav-item-anchor" onClick={props.handleSideNav}>Register</Link>
+                            <Link to="/join" className="side-nav-item-anchor" onClick={props.handleSideNav}>Register</Link>
                         </div>
                     </div>
                 )}

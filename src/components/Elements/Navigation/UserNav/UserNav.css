@@ -4,7 +4,7 @@
     align-items: flex-end;
     flex-direction: column;
     background-color:#001628;
-    width:250px;
+    width:300px;
 }
 
 .admin-option{
@@ -21,17 +21,14 @@
     padding:15px;
 }
 
-.admin-option:hover > *{
+.admin-link:hover > *{
     color:#E9072B;
 }
 
 .admin-link{
     text-decoration:none;
     color:#99D9D9;
-}
-
-.admin-option:nth-child(1){
-    border-top: 1px solid #99D9D9;
+    width: 100%;
 }
 
 @media screen and (max-width:920px){

@@ -11,7 +11,7 @@ export const SelectCompany = (props) => {
                 <Select isSearchable={true} defaultValue={props.options[0]} options={props.options} className="custom-select" styles={customStyles} onChange={props.handleCompanyChange} />
             </div>
             <div className="small-text-right">
-                <Link to="/" className="small-text-anchor">Add a company</Link>
+                <Link to="/join/company" className="small-text-anchor">Add a company</Link>
             </div>
         </div>
     )

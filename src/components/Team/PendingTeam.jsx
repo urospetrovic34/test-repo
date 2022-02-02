@@ -19,9 +19,11 @@ export const PendingTeam = (props) => {
             <div className="user-panel">
             <TeamHeader name="Pending for approval"/>
             <div className="card-panel">
+                <div className="card-panel-centre">
                 {
-                    pendingProfiles.status === 'success' && pendingProfiles.data !== undefined && pendingProfiles.data.data.data.map((profile) => <Card img={profile.attributes.profilePhoto.data.attributes.url} name={profile.attributes.name} date={profile.attributes.createdAt} status={profile.attributes.status}/>)
+                    pendingProfiles.status === 'success' && pendingProfiles.data !== undefined && pendingProfiles.data.data.data.map((profile) => <Card pageType="pending" img={profile.attributes.profilePhoto.data.attributes.url} name={profile.attributes.name} date={profile.attributes.createdAt} status={profile.attributes.status}/>)
                 }
+                </div>
             </div>
             </div>
         </div>
