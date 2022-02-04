@@ -60,3 +60,7 @@
 .card-row-two button:hover{
     color:#E9072B;
 }
+
+.card a{
+    text-decoration:none;
+}

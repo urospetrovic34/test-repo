@@ -2,7 +2,7 @@ import React from 'react'
 import './Card.css'
 import {useSelector} from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash,faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import {Link} from 'react-router-dom'
 
 export const Card = (props) => {
@@ -15,6 +15,7 @@ export const Card = (props) => {
     }
 
     const ordinalDate = getOrdinal(newDate.toLocaleString('default', { day: 'numeric' }))
+    const pendingLink = `/team/pending/${props.id}/edit`
 
     return (
         <div className="card">
@@ -34,9 +35,9 @@ export const Card = (props) => {
                             <div className="card-row-two-col-one">
                                 {
                                     props.pageType === "pending" ? (
-                                        <Link to="/"><button><FontAwesomeIcon icon={ faPencilAlt }/></button></Link>
+                                        <Link to={pendingLink}><button>Details</button></Link>
                                     ) : props.pageType === "published" && (
-                                        <Link to="/"><button>ABC</button></Link>
+                                        <Link to="/"><button>Edit</button></Link>
                                     )
                                 }
                             </div>

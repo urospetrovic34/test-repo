@@ -1,0 +1,21 @@
+.question-form{
+    display: flex;
+    flex-direction: column;
+    padding:10px;
+    width: calc(100% - 40px);
+    max-width: 600px;
+    background-color: rgba(104, 162, 185,0.25);
+    border-radius: 4px;
+}
+
+.question-panel{
+    display: flex;
+    width:100%;
+}
+
+.question-panel-centre{
+    display: flex;
+    flex-direction: column;
+    gap:40px;
+    width: 100%;
+}

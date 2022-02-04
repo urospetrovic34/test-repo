@@ -4,6 +4,7 @@ import {all, call, put, takeLatest} from 'redux-saga/effects'
 import {loginSuccess,loginFail,registerSuccess,registerFail,setCompanyUser,setCompanyAdmin,setCompany} from '../actions/userActions'
 import {LOGIN_USER,/*,LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_SUCCESS,REGISTER_SUCCESS,REGISTER_FAIL,USER_LOADED,USER_LOADING,*/ REGISTER_USER} from '../actions/types'
 import {getErrors} from '../actions/errorActions'
+//import {useSelector} from 'react-redux'
 
 const login = async (identifier,password) => {
     const response = await axiosPublicConfig.post('/auth/local',{

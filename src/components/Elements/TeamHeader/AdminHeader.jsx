@@ -9,7 +9,7 @@ export const AdminHeader = () => {
                 <h1>Team</h1>
             </div>
             <div>
-                <Link to='/'><button>+ Add new team member</button></Link>
+                <Link to='/'><button className="add-member-button">+ Add new team member</button></Link>
             </div>
         </div>
     )

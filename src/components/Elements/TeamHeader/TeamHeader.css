@@ -17,3 +17,7 @@
     font-weight: 300;
     letter-spacing:1px;
 }
+
+.add-member-button:hover{
+    color:#E9072B;
+}

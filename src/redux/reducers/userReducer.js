@@ -38,7 +38,6 @@ const userReducer = (state = initialState, action) => {
                 company:action.payload
             }
         default:
-            localStorage.removeItem('token')
             return state;
     }
 }

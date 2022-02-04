@@ -7,7 +7,8 @@
     width:300px;
 }
 
-.admin-option{
+.admin-option,
+.admin-label-option{
     font-weight:500;
     font-size: 17px;
     width: 100%;
@@ -25,10 +26,22 @@
     color:#E9072B;
 }
 
-.admin-link{
+.admin-link,
+.admin-label{
     text-decoration:none;
     color:#99D9D9;
     width: 100%;
+}
+
+.admin-label{
+    border-top: 1px solid #99D9D9;
+}
+
+.admin-label-option{
+    cursor: auto;
+    font-weight:700;
+    font-size: 20px;
+    justify-content: center;
 }
 
 @media screen and (max-width:920px){
