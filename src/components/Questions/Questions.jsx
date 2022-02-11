@@ -1,30 +1,138 @@
-import React from 'react'
-import {UserNav} from '../Elements/Navigation/UserNav/UserNav'
-import './Questions.css'
-import {QuestionHeader} from '../Elements/TeamHeader/QuestionHeader'
+import React from "react";
+import "./Questions.css";
+import { QuestionHeader } from "../Elements/TeamHeader/QuestionHeader";
 import useCompanyQuestions from "../../hooks/questions/useCompanyQuestions";
 //import { useSelector } from 'react-redux'
-import {QuestionCard} from '../Elements/Cards/QuestionCard'
+import axiosConfig from "../../config/axiosConfig";
+import { useMutation } from "react-query";
+import { QuestionCard } from "../Elements/Cards/QuestionCard";
+import { Spinner } from "../Elements/Spinner/Spinner";
 
 export const Questions = () => {
+  const allCompanyQuestions = useCompanyQuestions();
+  console.log(allCompanyQuestions);
+  let questionArray = [];
+  let num = 1;
 
-    const allCompanyQuestions = useCompanyQuestions()
-    console.log(allCompanyQuestions)
-    let num = 1
+  if (allCompanyQuestions.status === "success") {
+    questionArray = allCompanyQuestions.data.data.data;
+  }
 
-    return (
-        <div className="panel">
-            <UserNav/>
-            <div className="user-panel">
-                <QuestionHeader/>
-                <div className="question-panel">
-                <div className="question-panel-centre">
-                {
-                    allCompanyQuestions.status === 'success' && allCompanyQuestions.data !== undefined && allCompanyQuestions.data.data.data.map((question) => <QuestionCard number={num++} key={question.id} id={question.id} type={question.attributes.type} text={question.attributes.text}/>)
-                }
-                </div>
-            </div>
-            </div>
+  console.log(questionArray);
+
+  const mutation = useMutation(async ({ id1, id2, order1, order2 }) => {
+    console.log(id1, id2, order1, order2);
+    const res1 = await axiosConfig.put(`/questions/${id1}`, {
+      data: { order: -423 },
+    });
+    const res2 = await axiosConfig.put(`/questions/${id2}`, {
+      data: { order: -422 },
+    });
+    const res3 = await axiosConfig.put(`/questions/${id1}`, {
+      data: { order: order2 },
+    });
+    const res4 = await axiosConfig.put(`/questions/${id2}`, {
+      data: { order: order1 },
+    });
+    console.log(res1, res2, res3, res4);
+  });
+
+  const deleteMutation = useMutation((id) => {
+    return axiosConfig.delete(`/questions/${id}`);
+  });
+
+  const handleOrderUp = (id) => {
+    let aux = {};
+    const currentIndex = questionArray
+      .map(function (question) {
+        return question.id;
+      })
+      .indexOf(id);
+    const currentObject = questionArray[currentIndex];
+    const previousObject = questionArray[currentIndex - 1];
+    if (previousObject !== undefined) {
+      aux = questionArray[currentIndex];
+      questionArray[currentIndex] = questionArray[currentIndex - 1];
+      questionArray[currentIndex - 1] = aux;
+      mutation.mutate({
+        id1: currentObject.id,
+        id2: previousObject.id,
+        order1: currentObject.attributes.order,
+        order2: previousObject.attributes.order,
+      });
+    }
+  };
+
+  const handleOrderDown = (id) => {
+    let aux = {};
+    const currentIndex = questionArray
+      .map(function (question) {
+        return question.id;
+      })
+      .indexOf(id);
+    const currentObject = questionArray[currentIndex];
+    const nextObject = questionArray[currentIndex + 1];
+    if (nextObject !== undefined) {
+      aux = questionArray[currentIndex];
+      questionArray[currentIndex] = questionArray[currentIndex + 1];
+      questionArray[currentIndex + 1] = aux;
+      mutation.mutate({
+        id1: currentObject.id,
+        id2: nextObject.id,
+        order1: currentObject.attributes.order,
+        order2: nextObject.attributes.order,
+      });
+    }
+  };
+
+  const handleDelete = (id) => {
+    deleteMutation.mutate(id)
+  };
+
+  /*const handleOrderUp = (id) => {
+        let aux = 0
+        const currentIndex = allCompanyQuestions.data.data.data.map(
+            function(question){return question.id}
+        ).indexOf(id)
+        const currentObject = allCompanyQuestions.data.data.data[currentIndex]
+        const previousObject = allCompanyQuestions.data.data.data[currentIndex-1]
+        if(previousObject!==undefined) {
+            const a = omitOrder("order",currentObject.attributes)
+            const b = omitOrder("order",previousObject.attributes)
+            mutation.mutate({"id":previousObject.id,"data":{"data":a}})
+            mutation.mutate({"id":currentObject.id,"data":{"data":b}})
+        }
+    }*/
+
+  /*const handleOrderDown = (id) => {
+        
+    }*/
+
+  return allCompanyQuestions.status === 'success' ? (
+    <div>
+      <QuestionHeader />
+      <div className="question-panel">
+        <div className="question-panel-centre">
+          {allCompanyQuestions.status === "success" &&
+            questionArray &&
+            questionArray.map((question) => (
+              <QuestionCard
+                handleOrderUp={() => handleOrderUp(question.id)}
+                handleOrderDown={() => handleOrderDown(question.id)}
+                handleDelete={() => handleDelete(question.id)}
+                number={num++}
+                key={question.id}
+                id={question.id}
+                type={question.attributes.type}
+                text={question.attributes.text}
+              />
+            ))}
         </div>
-    )
-}
+      </div>
+    </div>
+  ) : (
+    <div className="control-center">
+      <Spinner />
+    </div>
+  );
+};

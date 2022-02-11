@@ -1,10 +1,11 @@
-import {LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_SUCCESS,REGISTER_SUCCESS,REGISTER_FAIL/*,USER_LOADED,USER_LOADING*/,SET_COMPANY_USER,SET_COMPANY_ADMIN,SET_COMPANY} from '../actions/types'
+import {LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_SUCCESS,REGISTER_SUCCESS,REGISTER_FAIL/*,USER_LOADED,USER_LOADING*/,SET_COMPANY_USER,SET_COMPANY_ADMIN,SET_COMPANY,SET_COMPANY_NAME} from '../actions/types'
 
 const initialState = {
     user:null,
     token:localStorage.getItem('token'),
     type:null,
-    company:null
+    company:null,
+    companyName:null
 }
 
 const userReducer = (state = initialState, action) => {
@@ -22,6 +23,11 @@ const userReducer = (state = initialState, action) => {
         case LOGOUT_SUCCESS:
             localStorage.removeItem('token')
             return initialState
+        case SET_COMPANY_NAME:
+            return{
+                ...state,
+                companyName:action.payload
+            }
         case SET_COMPANY_USER:
             return{
                 ...state,

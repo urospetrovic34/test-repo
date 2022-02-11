@@ -2,9 +2,9 @@ import React from 'react'
 import './QuestionCard.css'
 //import {UserNav} from '../Navigation/UserNav/UserNav'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown,faChevronUp } from '@fortawesome/free-solid-svg-icons'
-import {useSelector} from 'react-redux'
-import {Link} from 'react-router-dom'
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 export const QuestionCard = (props) => {
 
@@ -18,21 +18,21 @@ export const QuestionCard = (props) => {
     return (
         <div className="question-card">
             <div className="question-column-one">
-                <button><FontAwesomeIcon icon={ faChevronUp }/></button>
-                <button><FontAwesomeIcon icon={ faChevronDown }/></button>
+                <button onClick={() => props.handleOrderUp(props.id)}><FontAwesomeIcon icon={faChevronUp} /></button>
+                <button onClick={() => props.handleOrderDown(props.id)}><FontAwesomeIcon icon={faChevronDown} /></button>
             </div>
             <div className="question-column-two">
                 <p>Question {props.number} - {firstLetter(props.type)}</p>
                 <p>{firstLetter(props.text)}</p>
             </div>
             {
-                    user.user && user.type==="companyAdmin" && (
-                        <div className="question-column-three">
-                            <Link to={editQuestionLink}><button>Edit</button></Link>
-                            <button>Delete</button>
-                        </div>
-                    )
-                }
+                user.user && user.type === "companyAdmin" && (
+                    <div className="question-column-three">
+                        <Link to={editQuestionLink}><button className="edit-question-button">Edit</button></Link>
+                        <button onClick={() => props.handleDelete(props.id)}>Delete</button>
+                    </div>
+                )
+            }
         </div>
     )
 }

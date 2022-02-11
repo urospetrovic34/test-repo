@@ -3,6 +3,7 @@ import axiosConfig from '../../config/axiosConfig'
 
 export const getQuestion = async (id) => {
     const response = await axiosConfig.get(`/questions?filters[id][$eq]=${id.queryKey[1]}&populate=*`)
+    console.log(response)
     return response
 }
 

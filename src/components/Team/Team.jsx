@@ -1,6 +1,5 @@
 import React from 'react'
 import './Team.css'
-import {UserNav} from '../Elements/Navigation/UserNav/UserNav'
 import { useSelector } from 'react-redux'
 import useProfiles from "../../hooks/profiles/useProfiles";
 import {Card} from '../Elements/Cards/Card'
@@ -14,9 +13,8 @@ export const Team = (props) => {
     console.log(companyProfiles)
 
     return (
-        <div className="panel">
-            <UserNav/>
-            <div className="user-panel">
+        <div>
+            <div>
             {
                 user.user && user.type==='companyAdmin' ? (
                     <span>
