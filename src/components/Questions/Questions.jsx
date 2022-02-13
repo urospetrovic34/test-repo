@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Questions.css";
 import { QuestionHeader } from "../Elements/TeamHeader/QuestionHeader";
 import useCompanyQuestions from "../../hooks/questions/useCompanyQuestions";
-//import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 import axiosConfig from "../../config/axiosConfig";
 import { useMutation } from "react-query";
 import { QuestionCard } from "../Elements/Cards/QuestionCard";
 import { Spinner } from "../Elements/Spinner/Spinner";
+import { AnswerCard } from "../Elements/Cards/AnswerCard";
+import useAuthProfile from "../../hooks/profiles/useAuthProfile";
 
 export const Questions = () => {
+  const user = useSelector((state) => state.user);
+  let [currentQuestion, setCurrentQuestion] = useState(0);
   const allCompanyQuestions = useCompanyQuestions();
-  console.log(allCompanyQuestions);
+  const authProfile = useAuthProfile();
   let questionArray = [];
   let num = 1;
 
@@ -18,10 +22,7 @@ export const Questions = () => {
     questionArray = allCompanyQuestions.data.data.data;
   }
 
-  console.log(questionArray);
-
   const mutation = useMutation(async ({ id1, id2, order1, order2 }) => {
-    console.log(id1, id2, order1, order2);
     const res1 = await axiosConfig.put(`/questions/${id1}`, {
       data: { order: -423 },
     });
@@ -86,8 +87,28 @@ export const Questions = () => {
   };
 
   const handleDelete = (id) => {
-    deleteMutation.mutate(id)
+    deleteMutation.mutate(id);
   };
+
+  const handlePreviousQuestion = () => {
+    if(currentQuestion+1===1){
+      setCurrentQuestion(questionArray.length-1)
+      console.log("BANG")
+    }
+    else{
+      setCurrentQuestion(currentQuestion-1)
+    }
+  }
+
+  const handleNextQuestion = () => {
+    if(currentQuestion+1===questionArray.length){
+      setCurrentQuestion(0)
+      console.log("BANG")
+    }
+    else{
+      setCurrentQuestion(currentQuestion+1)
+    }
+  }
 
   /*const handleOrderUp = (id) => {
         let aux = 0
@@ -108,7 +129,10 @@ export const Questions = () => {
         
     }*/
 
-  return allCompanyQuestions.status === 'success' ? (
+  return allCompanyQuestions.status === "success" &&
+    user.user &&
+    user.type === "companyAdmin" &&
+    questionArray !== [] ? (
     <div>
       <QuestionHeader />
       <div className="question-panel">
@@ -128,6 +152,16 @@ export const Questions = () => {
               />
             ))}
         </div>
+      </div>
+    </div>
+  ) : allCompanyQuestions.status === "success" &&
+    user.user &&
+    user.type === "companyUser" &&
+    questionArray !== [] ? (
+    <div>
+      <QuestionHeader />
+      <div>
+        <AnswerCard profile={authProfile} total={questionArray.length} number={currentQuestion+1} question={questionArray[currentQuestion]} handleNextQuestion={handleNextQuestion} handlePreviousQuestion={handlePreviousQuestion}/>
       </div>
     </div>
   ) : (

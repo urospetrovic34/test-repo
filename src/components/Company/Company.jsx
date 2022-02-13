@@ -21,6 +21,7 @@ export const Company = () => {
   const company = useCompany();
   console.log(updatedCompany);
   let companyCheck = false;
+  let [sendCheck,setSendCheck] = useState(false)
   const fileInput = useRef(null);
   const fileReader = new FileReader();
 
@@ -77,6 +78,13 @@ export const Company = () => {
 
   const mutationEditCompany = useMutation((data) => {
     return axiosConfig.put(`companies/${user.company}`, data);
+  },{
+    onMutate:async (data)=>{
+      return setSendCheck(true)
+    },
+    onSuccess:()=>{
+      setSendCheck(false)
+    }
   });
 
   const handleEditCompany = (event) => {
@@ -86,7 +94,7 @@ export const Company = () => {
       mutation.mutate(files)
     }
     else{
-      const data = {"name":updatedCompany.name,"slug":updatedCompany.slug}
+      const data = {"data":{"name":updatedCompany.name,"slug":updatedCompany.slug}}
       mutationEditCompany.mutate(data)
     }
   };
@@ -102,7 +110,7 @@ export const Company = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [companyCheck]);
 
-  return company.status === "success" && companyCheck ? (
+  return company.status === "success" && companyCheck && !sendCheck ? (
     <div className="company-center">
       <span className="company-header">
         <TeamHeader name="Company Info" />

@@ -1,11 +1,12 @@
-import {LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_SUCCESS,REGISTER_SUCCESS,REGISTER_FAIL/*,USER_LOADED,USER_LOADING*/,SET_COMPANY_USER,SET_COMPANY_ADMIN,SET_COMPANY,SET_COMPANY_NAME} from '../actions/types'
+import {LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_SUCCESS,REGISTER_SUCCESS,REGISTER_FAIL,SET_PROFILE/*,USER_LOADED,USER_LOADING*/,SET_COMPANY_USER,SET_COMPANY_ADMIN,SET_COMPANY,SET_COMPANY_NAME} from '../actions/types'
 
 const initialState = {
     user:null,
     token:localStorage.getItem('token'),
     type:null,
     company:null,
-    companyName:null
+    companyName:null,
+    profile:null
 }
 
 const userReducer = (state = initialState, action) => {
@@ -42,6 +43,11 @@ const userReducer = (state = initialState, action) => {
             return{
                 ...state,
                 company:action.payload
+            }
+        case SET_PROFILE:
+            return{
+                ...state,
+                profile:action.payload
             }
         default:
             return state;

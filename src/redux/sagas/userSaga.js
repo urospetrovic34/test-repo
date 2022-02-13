@@ -1,7 +1,7 @@
 import axiosConfig from '../../config/axiosConfig'
 import axiosPublicConfig from '../../config/axiosPublicConfig'
 import {all, call, put, takeLatest} from 'redux-saga/effects'
-import {loginSuccess,loginFail,registerSuccess,registerFail,setCompanyUser,setCompanyAdmin,setCompany,setCompanyName} from '../actions/userActions'
+import {loginSuccess,loginFail,registerSuccess,registerFail,setCompanyUser,setCompanyAdmin,setCompany,setCompanyName,setProfile} from '../actions/userActions'
 import {LOGIN_USER,REGISTER_USER} from '../actions/types'
 import {getErrors} from '../actions/errorActions'
 //import {useSelector} from 'react-redux'
@@ -67,6 +67,7 @@ export function* loginWithCredentials({payload:{identifier,password}}){
             console.log(authProfile)
             yield put(setCompany(authProfile.payload.data[0].attributes.company.data.id))
             yield put(setCompanyName(authProfile.payload.data[0].attributes.company.data.attributes.name))
+            yield put(setProfile(authProfile.payload.data[0].id))
             if(authProfile.payload.data[0].attributes.userRole==='company_user'){
                 yield put(setCompanyUser())
             }

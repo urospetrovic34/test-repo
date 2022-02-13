@@ -1,0 +1,10 @@
+.answer-card{
+    display:flex;
+    justify-content:space-between;
+    width:100%;
+    color:#99D9D9;
+    padding:10px;
+    border-radius: 4px;
+    height: 150px;
+    background-color:#001628;
+}
