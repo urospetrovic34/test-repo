@@ -1,54 +1,169 @@
-import React, { useState, useEffect } from 'react';
-import './Company.css'
-import { TeamHeader } from '../Elements/TeamHeader/TeamHeader';
-import { FileUpload } from '../Elements/FileUpload/FileUpload';
-import useCompany from '../../hooks/companies/useCompany'
-import profile from '../../assets/profile-placeholder.png'
+import React, { useState, useEffect, useRef } from "react";
+import "./Company.css";
+import { TeamHeader } from "../Elements/TeamHeader/TeamHeader";
+import { FileUpload } from "../Elements/FileUpload/FileUpload";
+import useCompany from "../../hooks/companies/useCompany";
+import { Spinner } from "../Elements/Spinner/Spinner";
+import { DateShow } from "../Elements/Date/DateShow";
+import {useMutation} from 'react-query'
+import { useSelector } from 'react-redux'
+import axiosConfig from '../../config/axiosConfig'
 
 export const Company = () => {
+  const [updatedCompany, setUpdatedCompany] = useState({
+    name: "",
+    slug: "",
+    logo: null,
+    image: null,
+  });
 
-    const [updatedCompany, setUpdatedCompany] = useState({ name: '', slug: '', logo: null })
+  const user = useSelector((state) => state.user)
+  const company = useCompany();
+  console.log(updatedCompany);
+  let companyCheck = false;
+  const fileInput = useRef(null);
+  const fileReader = new FileReader();
 
-    const company = useCompany()
-    let companyCheck = false
-    console.log(company)
-
-    const image = company.status === 'success' && company.data.data.data.attributes.logo.data ? company.data.data.data.attributes.logo.data.attributes.url : profile
-
-    if (company.status === 'success') {
-        if (!companyCheck) {
-            companyCheck = true
-        }
+  if (company.status === "success") {
+    if (!companyCheck) {
+      companyCheck = true;
     }
+  }
 
-    const handleCompanyNameChange = (event) => {
-        setUpdatedCompany({ ...updatedCompany, name: event.target.value, slug: event.target.value.replace(/\s+/g, '').toLowerCase() })
+  const handleCompanyNameChange = (event) => {
+    setUpdatedCompany({
+      ...updatedCompany,
+      name: event.target.value,
+      slug: event.target.value.replace(/\s+/g, "").toLowerCase(),
+    });
+  };
+
+  const handleFileClick = (event) => {
+    event.preventDefault();
+    fileInput.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    event.preventDefault();
+    if (event.target.files[0] !== undefined) {
+      const fileUploaded = event.target.files[0];
+      const formData = new FormData();
+      formData.append("files", fileUploaded);
+      fileReader.readAsDataURL(fileUploaded);
+      fileReader.onload = function () {
+        setUpdatedCompany({
+          ...updatedCompany,
+          logo: formData,
+          image: fileReader.result,
+        });
+      };
+    } else {
+      setUpdatedCompany({ ...updatedCompany, logo: null, image: null });
     }
+  };
 
-    useEffect(() => {
-        if (companyCheck) {
-            setUpdatedCompany({ ...updatedCompany, name: company.data.data.data.attributes.name, slug: company.data.data.data.attributes.slug })
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [companyCheck])
+  const mutation = useMutation(
+    (files) => {
+      return axiosConfig.post("/upload", files);
+    },
+    {
+      onSuccess: (resp) => {
+        console.log(resp.data[0].id);
+        const data = { data: { ...updatedCompany, logo: resp.data[0].id } };
+        mutationEditCompany.mutate(data);
+      },
+    }
+  );
 
-    return <div>
-        <span>
-            <TeamHeader name="Company Info" />
-        </span>
-        <form className="company-form">
+  const mutationEditCompany = useMutation((data) => {
+    return axiosConfig.put(`companies/${user.company}`, data);
+  });
+
+  const handleEditCompany = (event) => {
+    event.preventDefault();
+    if(updatedCompany.logo){
+      const files = updatedCompany.logo
+      mutation.mutate(files)
+    }
+    else{
+      const data = {"name":updatedCompany.name,"slug":updatedCompany.slug}
+      mutationEditCompany.mutate(data)
+    }
+  };
+
+  useEffect(() => {
+    if (companyCheck) {
+      setUpdatedCompany({
+        ...updatedCompany,
+        name: company.data.data.data.attributes.name,
+        slug: company.data.data.data.attributes.slug,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [companyCheck]);
+
+  return company.status === "success" && companyCheck ? (
+    <div className="company-center">
+      <span className="company-header">
+        <TeamHeader name="Company Info" />
+      </span>
+      <form>
+        <div className="company-panel">
+          <div className="company-panel-row-one">
             <label htmlFor="">Company name</label>
-            <input value={updatedCompany.name} type="text" placeholder="Enter company name" name="company-name" onChange={handleCompanyNameChange} />
-            <label htmlFor="">Image</label>
-            <div className="company-form-row-one">
-                <div>
-                    <img className="company-logo" src={image} alt="#" />
-                </div>
-                <div className="company-form-row-one-column-two">
-                    <FileUpload className="company-width" />
-                </div>
+            <input
+              value={updatedCompany.name}
+              type="text"
+              placeholder="Enter company name"
+              name="company-name"
+              onChange={handleCompanyNameChange}
+            />
+          </div>
+          <div className="company-panel-row-two">
+            <div className="company-panel-row-two-column-one">
+              <img
+                className="company-logo"
+                src={
+                  updatedCompany.logo
+                    ? updatedCompany.image
+                    : company.data.data.data.attributes.logo.data.attributes.url
+                }
+                alt="#"
+              />
+              <FileUpload
+                fileInput={fileInput}
+                wider="wider"
+                className="company-width"
+                handleFileClick={handleFileClick}
+                handleFileChange={handleFileChange}
+              />
             </div>
-            <button className="submit-button">Save</button>
-        </form>
+            <div className="company-panel-row-two-column-two">
+              <p className="company-label">
+                Number of users:{" "}
+                {company.data.data.data.attributes.profiles.data.length}
+              </p>
+              <p className="company-label">
+                Number of questions:{" "}
+                {company.data.data.data.attributes.question.data.length}
+              </p>
+              <p className="company-label">Created at:</p>
+              <span className="company-info">
+                <DateShow date={company.data.data.data.attributes.createdAt} />
+              </span>
+            </div>
+          </div>
+          <div className="company-panel-row-three">
+            <button className="submit-button" onClick={handleEditCompany}>
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
+  ) : (
+    <div className="control-center">
+      <Spinner />
+    </div>
+  );
 };

@@ -89,23 +89,31 @@ export function* registerWithCredentials({payload:{email,password,username,formD
         try {
             //OVDE MORA CALL DA IDE, U SUPROTNOM NECE DA RADI
             const image = yield call(addProfilePicture,formData)
-            const newCompany = yield call(addNewCompany, {name, slug})
-            console.log(newCompany)
-            const newCompanyId = newCompany.payload.data.id;
-            yield createNewProfile(username,user.payload.user.id,userRole,company?company:newCompanyId,image.payload[0].id)
             try {
-                const authProfile = yield getAuthProfile(user.payload.user.id)
-                yield put(setCompany(authProfile.payload.data[0].attributes.company.data.id))
-                yield put(setCompanyName(authProfile.payload.data[0].attributes.company.data.name))
-                console.log(authProfile)
-                if(authProfile.payload.data[0].attributes.userRole==='company_user'){
-                    yield put(setCompanyUser())
+                if(slug && name){
+                    const newCompany = yield call(addNewCompany, {name, slug})
+                    const newCompanyId = newCompany.payload.data.id;
+                    yield createNewProfile(username,user.payload.user.id,userRole,newCompanyId,image.payload[0].id)
                 }
-                else if(authProfile.payload.data[0].attributes.userRole==='company_admin'){
-                    yield put(setCompanyAdmin())
+                else{
+                    yield createNewProfile(username,user.payload.user.id,userRole,company,image.payload[0].id)
+                }
+                try {
+                    const authProfile = yield getAuthProfile(user.payload.user.id)
+                    yield put(setCompany(authProfile.payload.data[0].attributes.company.data.id))
+                    yield put(setCompanyName(authProfile.payload.data[0].attributes.company.data.name))
+                    console.log(authProfile)
+                    if(authProfile.payload.data[0].attributes.userRole==='company_user'){
+                        yield put(setCompanyUser())
+                    }
+                    else if(authProfile.payload.data[0].attributes.userRole==='company_admin'){
+                        yield put(setCompanyAdmin())
+                    }
+                } catch (error) {
+                    console.log(error)     
                 }
             } catch (error) {
-                console.log(error)     
+                console.log(error)
             }
         } catch (error) {
             console.log(error)        

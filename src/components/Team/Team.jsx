@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import useProfiles from "../../hooks/profiles/useProfiles";
 import {Card} from '../Elements/Cards/Card'
 import { TeamHeader } from '../Elements/TeamHeader/TeamHeader';
+import {Spinner} from '../Elements/Spinner/Spinner'
 import { AdminHeader } from '../Elements/TeamHeader/AdminHeader';
 
 export const Team = (props) => {
@@ -12,7 +13,7 @@ export const Team = (props) => {
     const companyProfiles = useProfiles()
     console.log(companyProfiles)
 
-    return (
+    return companyProfiles.status === 'success' && user.user && user.type ? (
         <div>
             <div>
             {
@@ -34,6 +35,10 @@ export const Team = (props) => {
                 </div>
             </div>
             </div>
+        </div>
+    ) : (
+        <div className="control-center">
+            <Spinner/>
         </div>
     )
 }

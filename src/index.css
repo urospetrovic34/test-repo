@@ -60,6 +60,10 @@ input::placeholder{
   width: 120px;
 }
 
+.wider{
+  width:250px!important;
+}
+
 .submit-button,
 .file-upload-button{
   margin-top: 10px;
@@ -153,6 +157,8 @@ input::placeholder{
 .control{
   width: 100%;
   padding:15px;
+  max-height: calc(100vh - 89px);
+  overflow-y: scroll;
 }
 
 .control-center{
@@ -161,4 +167,8 @@ input::placeholder{
   justify-content: center;
   min-height: calc(100vh - 139px);
   overflow-y: none;
+}
+
+::-webkit-scrollbar {
+  display:none;
 }

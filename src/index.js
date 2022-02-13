@@ -9,7 +9,7 @@ import { QueryClientProvider, QueryClient } from 'react-query'
 const queryClient = new QueryClient({
   defaultOptions:{
     queries:{
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
       refetchOnmount: false,
       refetchOnReconnect: false,
       retry: false,
