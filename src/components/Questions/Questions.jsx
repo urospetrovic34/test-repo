@@ -157,11 +157,12 @@ export const Questions = () => {
   ) : allCompanyQuestions.status === "success" &&
     user.user &&
     user.type === "companyUser" &&
-    questionArray !== [] ? (
+    questionArray !== [] &&
+    authProfile.status === 'success' ? (
     <div>
       <QuestionHeader />
       <div>
-        <AnswerCard profile={authProfile} total={questionArray.length} number={currentQuestion+1} question={questionArray[currentQuestion]} handleNextQuestion={handleNextQuestion} handlePreviousQuestion={handlePreviousQuestion}/>
+        <AnswerCard profile={authProfile.data.data.data} total={questionArray.length} number={currentQuestion+1} question={questionArray[currentQuestion]} handleNextQuestion={handleNextQuestion} handlePreviousQuestion={handlePreviousQuestion}/>
       </div>
     </div>
   ) : (

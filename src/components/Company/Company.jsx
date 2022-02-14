@@ -68,6 +68,9 @@ export const Company = () => {
       return axiosConfig.post("/upload", files);
     },
     {
+      onMutate:async (data)=>{
+        return setSendCheck(true)
+      },
       onSuccess: (resp) => {
         console.log(resp.data[0].id);
         const data = { data: { ...updatedCompany, logo: resp.data[0].id } };
@@ -79,9 +82,6 @@ export const Company = () => {
   const mutationEditCompany = useMutation((data) => {
     return axiosConfig.put(`companies/${user.company}`, data);
   },{
-    onMutate:async (data)=>{
-      return setSendCheck(true)
-    },
     onSuccess:()=>{
       setSendCheck(false)
     }
@@ -95,7 +95,11 @@ export const Company = () => {
     }
     else{
       const data = {"data":{"name":updatedCompany.name,"slug":updatedCompany.slug}}
-      mutationEditCompany.mutate(data)
+      mutationEditCompany.mutate(data,{
+        onMutate:async (data)=>{
+          return setSendCheck(true)
+        }
+      })
     }
   };
 

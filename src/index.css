@@ -61,7 +61,11 @@ input::placeholder{
 }
 
 .wider{
-  width:250px!important;
+  width:300px!important;
+}
+
+.wider-hundert{
+  width:100%!important;
 }
 
 .submit-button,

@@ -1,0 +1,7 @@
+.edit-pending-panel{
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(104, 162, 185,0.25);
+    padding:0 15px;
+    width: 800px;
+}

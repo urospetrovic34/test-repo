@@ -44,6 +44,7 @@ function App() {
                   <Routes>
                     <Route exact path="/login" element={<GuestRoute redirect="/admin"><Login /></GuestRoute>} />
                     <Route exact path="/join" element={<GuestRoute redirect="/admin"><Register /></GuestRoute>} />
+                    <Route exact path="/team/:slug" element={<GuestRoute redirect="/login"><Team /></GuestRoute>} />
                     <Route exact path="/team" element={<UserRoute redirect="/login"><Team /></UserRoute>} />
                     <Route exact path="/questions" element={<UserRoute redirect="/login"><Questions /></UserRoute>} />
                     <Route exact path="/team/pending" element={<AdminRoute redirect="/login" redirectUser="/team"><PendingTeam /></AdminRoute>} />

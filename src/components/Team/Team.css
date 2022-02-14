@@ -9,13 +9,24 @@
 
 .card-panel{
     display: flex;
+    justify-content: space-between;
     width:100%;
 }
 
 .card-panel-centre{
     display: flex;
-    gap:40px;
+    justify-content: space-between;
+    gap: 40px;
     flex-wrap: wrap;
+}
+
+.card-space{
+    display: flex;
+    justify-content: center;
+}
+
+.no-purple{
+    text-decoration: none;
 }
 
 @media screen and (max-width:920px){
