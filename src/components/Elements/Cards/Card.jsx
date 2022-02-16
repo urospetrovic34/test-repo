@@ -35,9 +35,9 @@ export const Card = (props) => {
                             <div className="card-row-two-col-one">
                                 {
                                     props.pageType === "pending" ? (
-                                        <Link to={pendingLink}><button>Details</button></Link>
+                                        <Link params={{ testvalue: "hello" }} to={pendingLink}><button>Details</button></Link>
                                     ) : props.pageType === "published" && (
-                                        <Link to="/"><button>Edit</button></Link>
+                                        <Link params={{ testvalue: "hello" }} to="/"><button>Edit</button></Link>
                                     )
                                 }
                             </div>

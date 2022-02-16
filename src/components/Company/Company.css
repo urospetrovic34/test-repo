@@ -1,8 +1,10 @@
 .company-logo{
-    object-fit: contain;
+    object-fit: cover;
     width: 300px;
     height: 300px;
     border:1px solid black;
+    border-radius: 4px;
+    background-color:white;
 }
 
 .company-form-row-one-column-two{
@@ -71,10 +73,10 @@
 }
 
 .company-label{
-    font-size:17px;
+    font-size:20px;
     margin: 10px 0px;
 }
 
 .company-info{
-    font-size:20px;
+    font-size:25px;
 }

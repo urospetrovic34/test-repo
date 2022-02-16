@@ -1,20 +1,8 @@
 .card-panel{
     display: grid;
-    grid-gap:20px;
+    grid-gap:40px;
     grid-template-columns: repeat(4,1fr);
     max-width:2300px;
-}
-
-@media screen and (max-width:920px){
-    .user-panel{
-        width:100%;
-    }    
-    .card-panel-centre{
-        width:640px;
-    }
-    .card-panel{
-        justify-content: center;
-    }
 }
 
 @media screen and (max-width: 1700px) {

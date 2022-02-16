@@ -1,7 +1,29 @@
 .edit-pending-panel{
     display: flex;
-    flex-direction: column;
     background-color: rgba(104, 162, 185,0.25);
-    padding:0 15px;
     width: 800px;
+}
+
+.edit-pending-panel-column-one{
+    display: flex;
+    flex-direction: column;
+    padding:15px;
+    width: 45%;
+}
+
+.edit-pending-panel-column-one label{
+    margin-top:0px;
+}
+
+.profile-moderate-logo{
+    object-fit: cover;
+    width: 100%;
+    height: 300px;
+    border:1px solid black;
+    border-radius: 4px;
+    background-color:white;
+}
+
+.edit-pending-panel-column-one-row-two{
+    margin-top: 15px;
 }

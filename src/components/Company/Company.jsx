@@ -81,8 +81,11 @@ export const Company = () => {
   );
 
   const mutationEditCompany = useMutation((data) => {
-    return axiosConfig.put(`companies/${user.company}`, data);
+    return axiosConfig.put(`/companies/${user.company}`, data);
   },{
+    onMutate:async (data)=>{
+      return setSendCheck(true)
+    },
     onSuccess:()=>{
       setSendCheck(false)
     }
@@ -96,11 +99,7 @@ export const Company = () => {
     }
     else{
       const data = {"data":{"name":updatedCompany.name,"slug":updatedCompany.slug}}
-      mutationEditCompany.mutate(data,{
-        onMutate:async (data)=>{
-          return setSendCheck(true)
-        }
-      })
+      mutationEditCompany.mutate(data)
     }
   };
 

@@ -1,8 +1,10 @@
 .profile-logo{
-    object-fit: contain;
+    object-fit: cover;
     width: 300px;
     height: 300px;
     border:1px solid black;
+    border-radius: 4px;
+    background-color:white;
 }
 
 .profile-form-row-one-column-two{
@@ -72,7 +74,7 @@
 .profile-header{
     display: flex;
     width: 800px;
-    padding:0 15px;
+    margin-bottom: 15px;
 }
 
 .profile-label{

@@ -25,3 +25,8 @@
 .team-header{
     margin-bottom:15px;
 }
+
+.pending-buttons{
+    display: flex;
+    gap:10px;
+}
