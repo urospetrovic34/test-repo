@@ -47,6 +47,7 @@ export const Company = () => {
   const handleFileChange = (event) => {
     event.preventDefault();
     if (event.target.files[0] !== undefined) {
+      console.log(event.target.files[0])
       const fileUploaded = event.target.files[0];
       const formData = new FormData();
       formData.append("files", fileUploaded);

@@ -18,7 +18,7 @@ export const Card = (props) => {
     const pendingLink = `/team/pending/${props.id}/edit`
 
     return (
-        <div className="card">
+        <span>
             <img src={props.img} alt={props.alt}/>
             <div className="card-row-one">
                 <div className="card-row-one-col-one">
@@ -47,6 +47,6 @@ export const Card = (props) => {
                         </div>
                     )
                 }
-        </div>
+        </span>
     )
 }

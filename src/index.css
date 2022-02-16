@@ -7,6 +7,10 @@
   font-family: 'Readex Pro', sans-serif;
 }
 
+a{
+  text-decoration: none;
+}
+
 .wrapper{
   min-height: 100vh;
   width: 100%;
@@ -62,6 +66,10 @@ input::placeholder{
 
 .wider{
   width:300px!important;
+}
+
+.wider-2x{
+  width:500px!important;
 }
 
 .wider-hundert{

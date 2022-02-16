@@ -3,7 +3,7 @@ import axiosConfig from '../../config/axiosConfig'
 import { useSelector } from "react-redux";
 
 export const getCompanyQuestions = async (id) => {
-    const response = await axiosConfig.get(`/questions?filters[company][id][$eq]=${id.queryKey[1]}&sort=order:asc&populate=*`)
+    const response = await axiosConfig.get(`/questions?filters[company][id][$eq]=${id.queryKey[1]}&sort=order:asc&populate[answers][populate]=*`)
     return response
 }
 

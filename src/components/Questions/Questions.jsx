@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Questions.css";
 import { QuestionHeader } from "../Elements/TeamHeader/QuestionHeader";
 import useCompanyQuestions from "../../hooks/questions/useCompanyQuestions";
@@ -12,7 +12,6 @@ import useAuthProfile from "../../hooks/profiles/useAuthProfile";
 
 export const Questions = () => {
   const user = useSelector((state) => state.user);
-  let [currentQuestion, setCurrentQuestion] = useState(0);
   const allCompanyQuestions = useCompanyQuestions();
   const authProfile = useAuthProfile();
   let questionArray = [];
@@ -90,25 +89,7 @@ export const Questions = () => {
     deleteMutation.mutate(id);
   };
 
-  const handlePreviousQuestion = () => {
-    if(currentQuestion+1===1){
-      setCurrentQuestion(questionArray.length-1)
-      console.log("BANG")
-    }
-    else{
-      setCurrentQuestion(currentQuestion-1)
-    }
-  }
 
-  const handleNextQuestion = () => {
-    if(currentQuestion+1===questionArray.length){
-      setCurrentQuestion(0)
-      console.log("BANG")
-    }
-    else{
-      setCurrentQuestion(currentQuestion+1)
-    }
-  }
 
   /*const handleOrderUp = (id) => {
         let aux = 0
@@ -162,7 +143,7 @@ export const Questions = () => {
     <div>
       <QuestionHeader />
       <div>
-        <AnswerCard profile={authProfile.data.data.data} total={questionArray.length} number={currentQuestion+1} question={questionArray[currentQuestion]} handleNextQuestion={handleNextQuestion} handlePreviousQuestion={handlePreviousQuestion}/>
+        <AnswerCard questions={questionArray}/>
       </div>
     </div>
   ) : (

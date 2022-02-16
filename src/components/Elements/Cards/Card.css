@@ -1,19 +1,16 @@
 .card{
-    display:flex;
-    align-items:center;
-    flex-direction: column;
-    width:300px;
     color:#99D9D9;
+    width:100%;
     padding:10px;
     border-radius: 4px;
     cursor: pointer;
-    max-height: 408px;
     background-color:#001628;
+    text-decoration: none;
 }
 
 .card img{
-    width:280px;
-    height:280px;
+    height:320px;
+    width:100%;
     object-fit:cover;
 }
 
@@ -63,4 +60,22 @@
 
 .card a{
     text-decoration:none;
+}
+
+@media screen and (max-width: 1400px) {
+    .card{
+        width:100%;
+    }
+}
+
+@media screen and (max-width:1200px){
+    .card{
+        width:100%;
+    }
+}
+
+@media screen and (max-width:768px){
+    .card{
+        width:100%;
+    }
 }
