@@ -26,12 +26,22 @@ export const Register = () => {
     const [menuDisabled, setMenuDisabled] = useState(false);
     const [textChange, setTextChange] = useState(true)
 
+    const [nameCheck, setNameCheck] = useState(false);
+    const [imageCheck, setImageCheck] = useState(false);
+
     if (authProfile.status === 'success') {
         console.log("USPEH")
         if(!authProfileCheck){
             authProfileCheck = true
         }
     }
+    const [errorMessages, setErrorMessages] = useState({
+        "login": "",
+        "identifier": "",
+        "password": ""
+    })
+
+    const error = useSelector((state) => state.error)
 
     const roleOptions = [
         { value: 'company_user', label: 'Company User' },
@@ -43,7 +53,7 @@ export const Register = () => {
     let companyCheck = false
 
     if (companies.status === 'success') {
-        companies.data.data.data.map((company, index) => companyOptions.push({ "value": company.id, "label": company.attributes.name }))
+        companies.data.data.data?.map((company, index) => companyOptions.push({ "value": company.id, "label": company.attributes.name }))
         if(!companyCheck){
             companyCheck = true
         }
@@ -66,8 +76,38 @@ export const Register = () => {
 
     const handleRegisterSubmit = (event) => {
         event.preventDefault()
-        dispatch(registerUser(credentials))
+        if(!credentials.username){
+            setNameCheck(true)
+        }
+        else{
+            setNameCheck(false)
+        }
+        if(!credentials.formData){
+            setImageCheck(true)
+        }
+        if(!credentials.username && !credentials.email && !credentials.password && !credentials.formData){
+            alert("NEUSPESNO")
+        }
+        else{
+            dispatch(registerUser(credentials))
+        }
     }
+
+    useEffect(() => {
+        if (error.msg === "2 errors occurred") {
+            setErrorMessages({ "login": "", "identifier": " - Email is a required field", "password": " - Password is a required field" })
+        }
+        else if (error.msg === "password is a required field") {
+            setErrorMessages({ "login": "", "identifier": "", "password": " - Password is a required field" })
+        }
+        else if (error.msg === "identifier is a required field") {
+            setErrorMessages({ "login": "", "identifier": " - Email is a required field", "password": "" })
+        }
+        else if (error.msg === "Invalid identifier or password") {
+            setErrorMessages({ "login": " - Invalid credentials", "identifier": "", "password": "" })
+        }
+        console.log(errorMessages)
+    }, [error])
 
     const handleFileClick = (event) => {
         event.preventDefault()
@@ -124,23 +164,6 @@ export const Register = () => {
         }
     },[user,navigate])
 
-    /*useEffect(() =>{
-        if(authProfileCheck){
-            console.log(user)
-            console.log(authProfile)
-        }
-        //            authProfile.data.data.data[0].attributes.userRole==='company_user' ? (dispatch(setCompanyUser())) : dispatch(setCompanyAdmin())
-    },[authProfileCheck])
-
-    useEffect(() => {
-        if (user.isAuthenticated && user.type==='companyUser') {
-            navigate('/')
-        }
-        else if (user.isAuthenticated && user.type==='companyAdmin'){
-            navigate('/admin')
-        }
-    }, [user, navigate])*/
-
     return (
         <div>
             {companies.status === 'loading' && (
@@ -152,7 +175,7 @@ export const Register = () => {
                 <div className="register-form-container">
                     <p className="form-type">REGISTER</p>
                     <form className="register-form">
-                        <label htmlFor="">Name</label>
+                        <label htmlFor="">Name <span>{nameCheck && " - No name entered"}</span></label>
                         <input type="text" placeholder="Name" name="username" onChange={handleCredentialsChange} />
                         <label htmlFor="">Email</label>
                         <input type="text" placeholder="Email" name="email" onChange={handleCredentialsChange} />
@@ -165,7 +188,7 @@ export const Register = () => {
                         {/*OVDE IDE TAJ NOVI DEO */}
                         <label htmlFor="" className="role-label">User role</label>
                         <SelectRole options={roleOptions} handleRoleChange={handleRoleChange} />
-                        <label htmlFor="">Image</label>
+                        <label htmlFor="">Image <span>{imageCheck && " - No image sent"}</span></label>
                         <FileUpload fileName={fileName} fileInput={fileInput} handleFileClick={handleFileClick} handleFileChange={handleFileChange} />
                         <button className="submit-button" onClick={handleRegisterSubmit}>Register</button>
                         <div className="small-text-right">

@@ -12,7 +12,7 @@
     display:flex;
     flex-direction: column;
     justify-content:center;
-    width:5%;
+    width:6%;
 }
 
 .question-column-one button{
@@ -42,14 +42,35 @@
 }
 
 .edit-question-button{
-    background-color:#99D9D9;
+    background-color:green;
     outline:none;
     border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    color:#001628;
 }
 
-.edit-question-button:hover{
-    color:#E9072B;
+@media screen and (max-width: 500px) {
+    .question-column-two {
+        font-size: 14px;
+        width: 60%;
+        padding-left: 10px;
+    }
+
+    .question-column-three {
+        gap: 10px;
+    }
+
+    .admin-header-container button {
+        font-size: 12px;
+    }
+
+    .admin-header-container {
+        margin-bottom: 10px;
+        font-size: 15px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .question-column-three button {
+        width: 65px;
+        height: 40px;
+    }
 }

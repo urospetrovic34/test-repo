@@ -155,28 +155,25 @@ export function* registerWithCredentials({
             image.payload[0].id
           );
         }
-        try {
-          const authProfile = yield getAuthProfile(user.payload.user.id);
-          yield put(
-            setCompany(authProfile.payload.data[0].attributes.company.data.id)
-          );
-          yield put(
-            setCompanyName(
-              authProfile.payload.data[0].attributes.company.data.name
-            )
-          );
-          console.log(authProfile);
-          if (
-            authProfile.payload.data[0].attributes.userRole === "company_user"
-          ) {
-            yield put(setCompanyUser());
-          } else if (
-            authProfile.payload.data[0].attributes.userRole === "company_admin"
-          ) {
-            yield put(setCompanyAdmin());
-          }
-        } catch (error) {
-          console.log(error);
+        const authProfile = yield getAuthProfile(user.payload.user.id);
+        console.log(authProfile);
+        yield put(
+          setCompany(authProfile.payload.data[0].attributes.company.data.id)
+        );
+        yield put(
+          setCompanyName(
+            authProfile.payload.data[0].attributes.company.data.attributes.name
+          )
+        );
+        yield put(setProfile(authProfile.payload.data[0].id));
+        if (
+          authProfile.payload.data[0].attributes.userRole === "company_user"
+        ) {
+          yield put(setCompanyUser());
+        } else if (
+          authProfile.payload.data[0].attributes.userRole === "company_admin"
+        ) {
+          yield put(setCompanyAdmin());
         }
       } catch (error) {
         console.log(error);

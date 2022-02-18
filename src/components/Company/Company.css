@@ -16,7 +16,7 @@
     flex-direction: column;
     background-color: rgba(104, 162, 185,0.25);
     padding:0 15px;
-    width: 800px;
+    width: 100%;
 }
 
 .company-panel-row-one{
@@ -26,7 +26,7 @@
 
 .company-panel-row-two{
     display: flex;
-    flex-wrap: wrap;
+    gap: 100px;
 }
 
 .company-panel-row-three{
@@ -66,11 +66,6 @@
     align-items: center;
 }
 
-.company-header{
-    display: flex;
-    width: 800px;
-}
-
 .company-label{
     font-size:20px;
     margin: 10px 0px;
@@ -78,4 +73,36 @@
 
 .company-info{
     font-size:25px;
+}
+
+@media screen and (max-width: 700px) {
+    .company-form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .company-panel {
+        max-width: 500px;
+    }
+
+    .company-panel-row-two{
+        flex-wrap: wrap;
+        gap: 50px;
+    }
+
+    .company-panel-row-two-column-two {
+        width: auto;
+        
+    }
+
+    .company-logo {
+        width: 250px;
+        height: 250px;
+    }
+
+    .company-input {
+        width: 250px;
+    }
+
 }

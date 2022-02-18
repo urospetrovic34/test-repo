@@ -27,14 +27,14 @@ export const GuestTeam = () => {
     clearTimeout(timeout);
     await setAsyncTimeout(() => {
         setFilterData(event)
-    }, 3000);
+    }, 500);
   };
 
   const handleSort = async () => {
     clearTimeout(timeout);
     await setAsyncTimeout(() => {
         setSortData("desc")
-    }, 3000);
+    }, 500);
   };
 
   useEffect(() => {

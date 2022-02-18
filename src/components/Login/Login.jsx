@@ -45,10 +45,7 @@ export const Login = () => {
         event.preventDefault()
         dispatch(loginUser(credentials))
     }
-
-    //OVO TRENUTNO NECE DA RADI ZBOG TOGA STO SE SADA VRACAJU
-    //SAMO 500 GRESKE I.E. Internal Server Error
-    //BEZ SPECIJALIZOVANIH PORUKA
+    
     useEffect(() => {
         if (error.msg === "2 errors occurred") {
             setErrorMessages({ "login": "", "identifier": " - Email is a required field", "password": " - Password is a required field" })
@@ -71,30 +68,6 @@ export const Login = () => {
             "password": ""
         })
     }, [dispatch])
-
-    /*useEffect(() => {
-        if(user.type === 'companyUser'){
-            navigate('/')
-        }
-        else if(user.type === 'companyAdmin'){
-            navigate('/admin')
-        }
-    },[user,navigate])*/
-
-    /*useEffect(() =>{
-        if(authProfileCheck){
-            authProfile.data.data.data[0].attributes.userRole==='company_user' ? (dispatch(setCompanyUser())) : dispatch(setCompanyAdmin())
-        }
-    },[authProfileCheck])*/
-
-    /*useEffect(() => {
-        if (user.isAuthenticated && user.type==='companyUser') {
-            navigate('/')
-        }
-        else if (user.isAuthenticated && user.type==='companyAdmin'){
-            navigate('/admin')
-        }
-    }, [user, navigate])*/
 
     return (
         <div className="login-form-container">

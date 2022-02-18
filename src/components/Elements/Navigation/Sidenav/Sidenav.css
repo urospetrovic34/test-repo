@@ -2,6 +2,28 @@
   display: none;
 }
 
+.arrow-left {
+  color: #99D9D9;
+  margin: 15px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.arrow-left-icon {
+  margin-left: 15px;
+}
+
+.arrow-left:hover {
+  color:#E9072B;
+  cursor: pointer;
+}
+
+.outside {
+  width: 100%;
+}
+
 @media screen and (max-width: 920px) {
   .side-nav {
     position: absolute;

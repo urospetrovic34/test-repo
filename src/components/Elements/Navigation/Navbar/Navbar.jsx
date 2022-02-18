@@ -23,15 +23,25 @@ export const Navbar = (props) => {
         setVisibleSidenav(false)
     }
 
+    const onOutsideClick = () => {
+        setVisibleSidenav(false)
+    }
+
+    const closeSideNav = () => {
+        setVisibleSidenav(false)
+    }
+
     return (
         <div>
         <div className="nav">
             <div className="nav-mob">
+        
                 {user && 
                 <div className="nav-burger">
-                    <i className="fa fa-2x fa-bars nav-burger-icon" onClick={handleSideNav} />
+                    {visibleSidenav ? null : <i className="fa fa-2x fa-bars nav-burger-icon" onClick={handleSideNav} />}
                 </div>
                 }
+                
                 <div className="nav-logo">
                     <Link to="/">
                         <img src={navLogo} alt="navigation-logo" className="nav-logo-icon" />
@@ -57,7 +67,7 @@ export const Navbar = (props) => {
                 </div>
             }
         </div>
-            {visibleSidenav ? <Sidenav handleSideNav={handleSideNav} routeAndClose={routeAndClose}/> : null}
+            {visibleSidenav ? <Sidenav routeAndClose={routeAndClose} onOutsideClick={onOutsideClick} closeSideNav={closeSideNav}/> : null}
         </div>
     )
 }

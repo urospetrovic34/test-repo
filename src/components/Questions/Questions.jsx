@@ -27,16 +27,13 @@ export const Questions = () => {
     const res1 = await axiosConfig.put(`/questions/${id1}`, {
       data: { order: -423 },
     });
-    const res2 = await axiosConfig.put(`/questions/${id2}`, {
-      data: { order: -422 },
-    });
     const res3 = await axiosConfig.put(`/questions/${id1}`, {
       data: { order: order2 },
     });
     const res4 = await axiosConfig.put(`/questions/${id2}`, {
       data: { order: order1 },
     });
-    console.log(res1, res2, res3, res4);
+    console.log(res1, res3, res4);
   });
 
   const deleteMutation = useMutation((id) => {
@@ -101,6 +98,9 @@ export const Questions = () => {
     }
     deleteMutation.mutate(id);
   };
+
+  console.log(user)
+  console.log(questionArray)
 
   return allCompanyQuestions.status === "success" &&
     user.user &&

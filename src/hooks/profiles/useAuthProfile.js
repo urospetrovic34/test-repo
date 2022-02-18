@@ -9,6 +9,7 @@ export const getAuthProfile = async (id) => {
 
 export default function useAuthProfile(){
     const user = useSelector((state) => state.user)
+    console.log(user)
     const userId = user?.profile
     return useQuery(['authProfile',userId],getAuthProfile,{enabled:!!userId})
 }

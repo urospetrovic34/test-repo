@@ -120,7 +120,7 @@ export const Company = () => {
       <span className="company-header">
         <TeamHeader name="Company Info" />
       </span>
-      <form>
+      <form className="company-form">
         <div className="company-panel">
           <div className="company-panel-row-one">
             <label htmlFor="">Company name</label>
@@ -130,6 +130,7 @@ export const Company = () => {
               placeholder="Enter company name"
               name="company-name"
               onChange={handleCompanyNameChange}
+              className="company-input"
             />
           </div>
           <div className="company-panel-row-two">
@@ -167,7 +168,7 @@ export const Company = () => {
             </div>
           </div>
           <div className="company-panel-row-three">
-            <button className="submit-button" onClick={handleEditCompany}>
+            <button className="submit-button company-button" onClick={handleEditCompany}>
               Save
             </button>
           </div>
