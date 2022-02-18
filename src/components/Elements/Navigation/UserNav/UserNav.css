@@ -22,6 +22,20 @@
     padding:15px;
 }
 
+.admin-label-option-label{
+    font-weight:500;
+    font-size: 17px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    word-break: keep-all;
+    text-align: center;
+    cursor: pointer;
+    border-bottom: 1px solid #99D9D9;
+    padding:15px;
+}
+
 .admin-link:hover > *{
     color:#E9072B;
 }

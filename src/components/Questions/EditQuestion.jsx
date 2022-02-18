@@ -16,6 +16,7 @@ export const EditQuestion = () => {
 
   if (question.status === "success") {
     questionCheck = true;
+    console.log(question.data.data.data[0].attributes.type);
   }
 
   const mutation = useMutation(
@@ -60,8 +61,29 @@ export const EditQuestion = () => {
     });
   };
 
+  const deleteMutationAnswer = useMutation((id) => {
+    return axiosConfig.delete(`/answers/${id}`);
+  });
+
   const handleEditQuestion = (event) => {
     event.preventDefault();
+    let answers = question.data.data.data[0].attributes.answers;
+    if (
+      answers.data.length !== 0 &&
+      ((questionData.type !== "image" &&
+      question.data.data.data[0].attributes.type === "image") ||
+      (questionData.type === "image" &&
+      question.data.data.data[0].attributes.type !== "image"))
+
+    ) {
+      for (let i = 0; i < answers.data.length; i++) {
+        console.log("NIJE SA INTERNETA");
+        console.log(answers.data[i]);
+        deleteMutationAnswer.mutate(answers.data[i].id)
+      }
+    } else {
+      console.log("SA INTERNETA");
+    }
     const data = { data: questionData };
     mutation.mutate({ id: window.location.pathname.split("/")[2], data: data });
   };

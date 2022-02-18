@@ -1,45 +1,47 @@
-import React, {useEffect} from 'react'
-import './Sidenav.css'
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux";
-import {logout} from '../../../../redux/actions/userActions'
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import "./Sidenav.css";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const Sidenav = (props) => {
+  const user = useSelector((state) => state.user);
 
-    const user = useSelector((state) => state.user)
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    useEffect(()=>{
-        if(user.isAuthenticated)
-        {
-            navigate('/')
-        }
-    },[user,navigate])
-
-
-    return (
-        <div className="side-nav">
-            <div className="side-nav-exit">
-                <i className="fa fa-3x fa-times side-nav-exit-icon" onClick={props.handleSideNav}/>
-            </div>
-                {user.isAuthenticated ? (
-                    <div className="side-nav-items">
-                        <div className="side-nav-item">
-                            <p className="side-nav-option" onClick={() => dispatch(logout())}>Logout</p>   
-                        </div>
-                    </div>
-                ) : (
-                    <div className="side-nav-items">
-                        <div className="side-nav-item">
-                            <Link to="/login" className="side-nav-item-anchor" onClick={props.handleSideNav}>Login</Link>
-                        </div>
-                        <div className="side-nav-item">
-                            <Link to="/join" className="side-nav-item-anchor" onClick={props.handleSideNav}>Register</Link>
-                        </div>
-                    </div>
-                )}
-        </div>
-    )
-}
+  return user.user && user.type && (
+    <div className="side-nav">
+      <div className="admin-label">
+        <div className="admin-label-option-label">{user.companyName}</div>
+      </div>
+      {user.user && user.type === "companyAdmin" && (
+        <Link
+          className="admin-link"
+          to="/team/pending"
+          onClick={props.routeAndClose}
+        >
+          <div className="admin-option">Pending for approval</div>
+        </Link>
+      )}
+      <Link className="admin-link" to="/team" onClick={props.routeAndClose}>
+        <div className="admin-option">Team</div>
+      </Link>
+      <Link
+        className="admin-link"
+        to="/questions"
+        onClick={props.routeAndClose}
+      >
+        <div className="admin-option">Questions</div>
+      </Link>
+      {user.user && user.type === "companyAdmin" && (
+        <Link
+          className="admin-link"
+          to="/company"
+          onClick={props.routeAndClose}
+        >
+          <div className="admin-option">Company Info</div>
+        </Link>
+      )}
+      <Link className="admin-link" to="/profile" onClick={props.routeAndClose}>
+        <div className="admin-option">My Profile</div>
+      </Link>
+    </div>
+  );
+};

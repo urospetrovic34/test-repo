@@ -19,7 +19,6 @@ export const Company = () => {
 
   const user = useSelector((state) => state.user)
   const company = useCompany();
-  console.log(updatedCompany);
   let companyCheck = false;
   let [sendCheck,setSendCheck] = useState(false)
   const fileInput = useRef(null);
@@ -88,6 +87,7 @@ export const Company = () => {
     },
     onSuccess:()=>{
       setSendCheck(false)
+      window.location.reload()
     }
   });
 
@@ -105,6 +105,7 @@ export const Company = () => {
 
   useEffect(() => {
     if (companyCheck) {
+      console.log(company.data.data.data.attributes.name)
       setUpdatedCompany({
         ...updatedCompany,
         name: company.data.data.data.attributes.name,

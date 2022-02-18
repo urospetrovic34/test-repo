@@ -1,7 +1,6 @@
 import React from "react";
 import "./Team.css";
 //import { useSelector } from 'react-redux'
-import { Link } from "react-router-dom";
 import usePendingProfiles from "../../hooks/profiles/usePendingProfiles";
 import { Card } from "../Elements/Cards/Card";
 import { TeamHeader } from "../Elements/TeamHeader/TeamHeader";
@@ -19,8 +18,9 @@ export const PendingTeam = (props) => {
           {pendingProfiles.status === "success" &&
             pendingProfiles.data !== undefined &&
             pendingProfiles.data.data.data.map((profile) => (
-              <Link className="card" to="#">
+              <div key={profile.id} className="card">
                 <Card
+                  profile={profile}
                   key={profile.id}
                   id={profile.id}
                   pageType="pending"
@@ -29,7 +29,7 @@ export const PendingTeam = (props) => {
                   date={profile.attributes.createdAt}
                   status={profile.attributes.status}
                 />
-              </Link>
+              </div>
             ))}
       </div>
     </div>

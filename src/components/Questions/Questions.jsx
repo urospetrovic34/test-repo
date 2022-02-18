@@ -19,6 +19,8 @@ export const Questions = () => {
 
   if (allCompanyQuestions.status === "success") {
     questionArray = allCompanyQuestions.data.data.data;
+
+    console.log(questionArray)
   }
 
   const mutation = useMutation(async ({ id1, id2, order1, order2 }) => {
@@ -40,6 +42,10 @@ export const Questions = () => {
   const deleteMutation = useMutation((id) => {
     return axiosConfig.delete(`/questions/${id}`);
   });
+
+  const deleteMutationAnswer = useMutation((id) => {
+    return axiosConfig.delete(`/answers/${id}`);
+  })
 
   const handleOrderUp = (id) => {
     let aux = {};
@@ -86,29 +92,15 @@ export const Questions = () => {
   };
 
   const handleDelete = (id) => {
+    let answers = questionArray[questionArray.findIndex(x => x.id === id)].attributes.answers
+    if(answers.data.length!==0){
+      for(let i=0;i<answers.data.length;i++){
+        console.log(answers.data[i])
+        deleteMutationAnswer.mutate(answers.data[i].id)
+      }
+    }
     deleteMutation.mutate(id);
   };
-
-
-
-  /*const handleOrderUp = (id) => {
-        let aux = 0
-        const currentIndex = allCompanyQuestions.data.data.data.map(
-            function(question){return question.id}
-        ).indexOf(id)
-        const currentObject = allCompanyQuestions.data.data.data[currentIndex]
-        const previousObject = allCompanyQuestions.data.data.data[currentIndex-1]
-        if(previousObject!==undefined) {
-            const a = omitOrder("order",currentObject.attributes)
-            const b = omitOrder("order",previousObject.attributes)
-            mutation.mutate({"id":previousObject.id,"data":{"data":a}})
-            mutation.mutate({"id":currentObject.id,"data":{"data":b}})
-        }
-    }*/
-
-  /*const handleOrderDown = (id) => {
-        
-    }*/
 
   return allCompanyQuestions.status === "success" &&
     user.user &&

@@ -11,11 +11,12 @@
 .question-panel{
     display: flex;
     width:100%;
+    margin-top: 15px;
 }
 
 .question-panel-centre{
     display: flex;
     flex-direction: column;
-    gap:40px;
+    gap:20px;
     width: 100%;
 }

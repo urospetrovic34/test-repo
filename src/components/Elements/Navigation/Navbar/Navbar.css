@@ -1,3 +1,9 @@
+.nav-logo {
+  display: flex;
+  column-gap: 20px;
+  align-items: center;
+}
+
 .nav-logo-icon{
   object-fit: contain;
   width:55px;
@@ -54,10 +60,20 @@
 }
 
 @media screen and (max-width:920px){
+  .nav-mob {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-logo-icon {
+    margin-left: 0;
+  }
+
   .nav-burger{
     display: flex;
   }
-  .nav-items{
+
+  /* .nav-items{
     display: none;
-  }
+  } */
 }

@@ -24,7 +24,7 @@ export const AddQuestion = () => {
   });
   const allQuestions = useQuestions();
   const navigate = useNavigate();
-  const orders = [];
+  let orders = [];
   let maxOrder = [];
   let orderCheck = false;
 
@@ -53,6 +53,8 @@ export const AddQuestion = () => {
       },
     }
   );
+  console.log(allQuestions)
+  console.log(orderCheck)
   console.log(maxOrder);
 
   const handleAddQuestion = (event) => {
@@ -85,7 +87,7 @@ export const AddQuestion = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderCheck]);
 
-  return orderCheck && maxOrder !== [] ? (
+  return allQuestions.status === 'success' && orderCheck && maxOrder !== [] ? (
     <div>
       <span>
         <TeamHeader name="Add new Question" />

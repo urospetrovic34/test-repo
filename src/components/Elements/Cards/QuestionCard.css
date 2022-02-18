@@ -42,7 +42,14 @@
 }
 
 .edit-question-button{
-    background-color:green;
+    background-color:#99D9D9;
     outline:none;
     border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    color:#001628;
+}
+
+.edit-question-button:hover{
+    color:#E9072B;
 }

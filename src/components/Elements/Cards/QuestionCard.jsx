@@ -18,8 +18,8 @@ export const QuestionCard = (props) => {
     return (
         <div className="question-card">
             <div className="question-column-one">
-                <button onClick={() => props.handleOrderUp(props.id)}><FontAwesomeIcon icon={faChevronUp} /></button>
-                <button onClick={() => props.handleOrderDown(props.id)}><FontAwesomeIcon icon={faChevronDown} /></button>
+                <button className="submit-button-small" onClick={() => props.handleOrderUp(props.id)}><FontAwesomeIcon icon={faChevronUp} /></button>
+                <button className="submit-button-small" onClick={() => props.handleOrderDown(props.id)}><FontAwesomeIcon icon={faChevronDown} /></button>
             </div>
             <div className="question-column-two">
                 <p>Question {props.number} - {firstLetter(props.type)}</p>
@@ -29,7 +29,7 @@ export const QuestionCard = (props) => {
                 user.user && user.type === "companyAdmin" && (
                     <div className="question-column-three">
                         <Link to={editQuestionLink}><button className="edit-question-button">Edit</button></Link>
-                        <button onClick={() => props.handleDelete(props.id)}>Delete</button>
+                        <button className="delete-button" onClick={() => props.handleDelete(props.id)}>Delete</button>
                     </div>
                 )
             }

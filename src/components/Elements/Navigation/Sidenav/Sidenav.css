@@ -1,42 +1,26 @@
+.side-nav {
+  display: none;
+}
+
 @media screen and (max-width: 920px) {
   .side-nav {
     position: absolute;
     background-color: #001628;
-    opacity: 0.95;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 100%;
+    width: 50%;
     height: 100%;
-    top: 0;
+    top: 89px;
     left: 0;
-  }
-  .side-nav-items{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 70px;
-  }
-  .side-nav-item-anchor {
-    text-decoration: none;
-    color: #99d9d9;
-    font-weight: 500;
-    font-size: 32px;
-  }
-  .side-nav-item-anchor:hover {
-    color: #e9072b;
-  }
-  .side-nav-item{
-      margin-top:10px;
-      margin-bottom: 10px;
+    z-index: 3;
   }
   .side-nav-exit{
-      display:flex;
-      justify-content: flex-end;
-      width:100%;
-      padding:10px;
-      margin-top: 20px;
+    display:flex;
+    justify-content: center;
+    width:100%;
+    padding:10px;
   }
   .side-nav-exit-icon{
     color:#99D9D9;

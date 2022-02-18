@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { TeamHeader } from "../Elements/TeamHeader/TeamHeader";
 import "./Profile.css";
-//import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 import useAuthProfile from "../../hooks/profiles/useAuthProfile";
 import { Spinner } from "../Elements/Spinner/Spinner";
-//import { useSelector } from "react-redux";
 import { FileUpload } from "../Elements/FileUpload/FileUpload";
+import { useMutation } from "react-query";
+import axiosConfig from "../../config/axiosConfig";
 
 export const Profile = () => {
-  //const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
+  const profile = user.profile;
   const authProfile = useAuthProfile();
   let profileCheck = false;
-  let sendCheck = false
+  let sendCheck = false;
   //let [sendCheck, setSendCheck] = useState(false);
   const fileInput = useRef(null);
   const fileReader = new FileReader();
@@ -21,6 +23,7 @@ export const Profile = () => {
     logo: null,
     image: null,
   });
+  console.log(updatedProfile)
 
   if (authProfile.status === "success") {
     if (!profileCheck) {
@@ -37,11 +40,18 @@ export const Profile = () => {
 
   const handleEditProfile = (event) => {
     event.preventDefault();
+    if (updatedProfile.logo) {
+      const files = updatedProfile.logo;
+      mutation.mutate(files);
+    } else {
+      const data = { data: { name: updatedProfile.name } };
+      mutationEditProfile.mutate(data);
+    }
   };
 
   const handleNothingForNow = (event) => {
     event.preventDefault();
-  }
+  };
 
   const handleFileChange = (event) => {
     event.preventDefault();
@@ -61,6 +71,29 @@ export const Profile = () => {
       setUpdatedProfile({ ...updatedProfile, logo: null, image: null });
     }
   };
+
+  const mutation = useMutation(
+    (files) => {
+      return axiosConfig.post("/upload", files);
+    },
+    {
+      onSuccess: (resp) => {
+        console.log(resp.data[0].id);
+        const data = {
+          data: { ...updatedProfile, profilePhoto: resp.data[0].id },
+        };
+        mutationEditProfile.mutate(data);
+      },
+    }
+  );
+
+  const mutationEditProfile = useMutation((data) => {
+    return axiosConfig.put(`/profiles/${profile}`, data);
+  },{
+    onSuccess: () => {
+      console.log("USPESNO")
+    },
+  });
 
   const handleFileClick = (event) => {
     event.preventDefault();
@@ -138,7 +171,12 @@ export const Profile = () => {
                 name="profile-name"
                 onChange={handleProfileNameChange}
               />
-              <button className="submit-button wider-hundert" onClick={handleNothingForNow}>Change password</button>
+              <button
+                className="submit-button wider-hundert"
+                onClick={handleNothingForNow}
+              >
+                Change password
+              </button>
             </div>
           </div>
           <div className="profile-panel-row-three">

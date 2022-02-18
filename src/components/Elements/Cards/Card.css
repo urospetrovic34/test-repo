@@ -8,10 +8,11 @@
     text-decoration: none;
 }
 
-.card img{
+.card-avatar{
     height:320px;
     width:100%;
     object-fit:cover;
+    background-color:white;
 }
 
 .card-row-one{

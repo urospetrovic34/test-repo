@@ -5,8 +5,10 @@ import { Sidenav } from '../Sidenav/Sidenav';
 import navLogo from '../../../../assets/logo.png'
 import { useDispatch, useSelector } from "react-redux";
 import {logout} from '../../../../redux/actions/userActions'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 
-export const Navbar = () => {
+export const Navbar = (props) => {
 
     const {user,type} = useSelector((state) => state.user)
     const dispatch = useDispatch();
@@ -17,36 +19,45 @@ export const Navbar = () => {
         visibleSidenav ? setVisibleSidenav(false) : setVisibleSidenav(true)
     }
 
+    const routeAndClose = () => {
+        setVisibleSidenav(false)
+    }
+
     return (
         <div>
-            <div className="nav">
+        <div className="nav">
+            <div className="nav-mob">
+                {user && 
+                <div className="nav-burger">
+                    <i className="fa fa-2x fa-bars nav-burger-icon" onClick={handleSideNav} />
+                </div>
+                }
                 <div className="nav-logo">
                     <Link to="/">
                         <img src={navLogo} alt="navigation-logo" className="nav-logo-icon" />
                     </Link>
-                </div>
-                {user && 
-                    <div className="nav-items">
-                        <div className="nav-item">
-                            <p className="nav-option" onClick={() => dispatch(logout())}>Logout</p>   
-                        </div>
-                    </div>
-                }
-                {!user && !type && 
-                    <div className="nav-items">
-                        <div className="nav-item">
-                            <Link to="/login" className="nav-item-anchor">Login</Link>
-                        </div>
-                        <div className="nav-item">
-                            <Link to="/join" className="nav-item-anchor">Register</Link>
-                        </div>
-                    </div>
-                }
-                <div className="nav-burger">
-                    <i className="fa fa-2x fa-bars nav-burger-icon" onClick={handleSideNav} />
+                    <button className="submit-button" onClick={props.toggleTheme}>{props.themeIcon ? <FontAwesomeIcon icon={faSun} className="sun-icon"/> : <FontAwesomeIcon icon={faMoon} className="moon-icon"/>}</button>  
                 </div>
             </div>
-            {visibleSidenav ? <Sidenav handleSideNav={handleSideNav}/> : null}
+            {user && 
+                <div className="nav-items">
+                    <div className="nav-item">
+                        <p className="nav-option" onClick={() => dispatch(logout())}>Logout</p>   
+                    </div>
+                </div>
+            }
+            {!user && !type && 
+                <div className="nav-items">
+                    <div className="nav-item">
+                        <Link to="/login" className="nav-item-anchor">Login</Link>
+                    </div>
+                    <div className="nav-item">
+                        <Link to="/join" className="nav-item-anchor">Register</Link>
+                    </div>
+                </div>
+            }
+        </div>
+            {visibleSidenav ? <Sidenav handleSideNav={handleSideNav} routeAndClose={routeAndClose}/> : null}
         </div>
     )
 }

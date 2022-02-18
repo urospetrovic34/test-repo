@@ -8,23 +8,16 @@ import { registerUser } from '../../redux/actions/userActions'
 //import { clearErrors } from '../../redux/actions/errorActions'
 import { useNavigate } from "react-router-dom";
 import { FileUpload } from '../Elements/FileUpload/FileUpload'
-import { SelectCompany } from '../Elements/Select/SelectCompany'
-import { SelectRole } from '../Elements/Select/SelectRole'
 import { Link } from 'react-router-dom'
 import useCompanies from '../../hooks/useCompanies'
 import useAuthProfile from "../../hooks/useAuthProfile";
-import { InputNewCompany } from '../Elements/Input/InputNewCompany';
 import { Spinner } from "../Elements/Spinner/Spinner";
 //import {setCompanyUser,setCompanyAdmin} from '../../redux/actions/userActions'
 
-export const Register = () => {
+export const RegisterSlug = () => {
 
     const authProfile = useAuthProfile();
     let authProfileCheck = false
-
-    const [newCompanyOpen, setNewCompanyOpen] = useState(false);
-    const [menuDisabled, setMenuDisabled] = useState(false);
-    const [textChange, setTextChange] = useState(true)
 
     if (authProfile.status === 'success') {
         console.log("USPEH")
@@ -51,7 +44,7 @@ export const Register = () => {
 
     const [fileName, setFileName] = useState("Choose file")
     const user = useSelector((state) => state.user)
-    const [credentials, setCredentials] = useState({ email: '', password: '', username: '', formData: null, userRole: roleOptions[0].value, company: '',name:'',slug:'' })
+    const [credentials, setCredentials] = useState({ email: '', password: '', username: '', formData: null, userRole: roleOptions[0].value, company: window.location.pathname.split("/")[2],name:'',slug:'' })
 
     console.log(credentials)
 
@@ -81,31 +74,6 @@ export const Register = () => {
         const formData = new FormData()
         formData.append('files', fileUploaded)
         setCredentials({ ...credentials, formData: formData })
-    }
-
-    const handleRoleChange = (event) => {
-        setCredentials({ ...credentials, userRole: event.value })
-    }
-
-    const handleCompanyChange = (event) => {
-        setCredentials({ ...credentials, company: event.value })
-    }
-
-    const handleCompanyName = (event) => {
-        setCredentials({ ...credentials, name: event.target.value, slug: event.target.value.replace(/\s+/g, '').toLowerCase()})
-    }
-
-    const handleNewCompany = () => {
-        setNewCompanyOpen(true)
-        setMenuDisabled(true)
-        setTextChange(false)
-        setCredentials({ ...credentials,company: ''})
-        if (newCompanyOpen) {
-            setNewCompanyOpen(false)
-            setMenuDisabled(false)
-            setTextChange(true)
-            setCredentials({ ...credentials, name:'', slug:''})
-        }
     }
 
     useEffect(() =>{
@@ -158,13 +126,6 @@ export const Register = () => {
                         <input type="text" placeholder="Email" name="email" onChange={handleCredentialsChange} />
                         <label htmlFor="">Password</label>
                         <input type="password" placeholder="Password" name="password" onChange={handleCredentialsChange} />
-                        <label htmlFor="">Company</label>
-                        <SelectCompany options={companyOptions} handleCompanyChange={handleCompanyChange} handleNewCompany={handleNewCompany} menuDisabled={menuDisabled} textChange={textChange}/>
-                        {/*OVDE IDE TAJ NOVI DEO */}
-                        {newCompanyOpen && <InputNewCompany handleCompanyName={handleCompanyName}/>}
-                        {/*OVDE IDE TAJ NOVI DEO */}
-                        <label htmlFor="" className="role-label">User role</label>
-                        <SelectRole options={roleOptions} handleRoleChange={handleRoleChange} />
                         <label htmlFor="">Image</label>
                         <FileUpload fileName={fileName} fileInput={fileInput} handleFileClick={handleFileClick} handleFileChange={handleFileChange} />
                         <button className="submit-button" onClick={handleRegisterSubmit}>Register</button>

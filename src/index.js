@@ -6,17 +6,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store.js'
 import { QueryClientProvider, QueryClient } from 'react-query'
 
-const queryClient = new QueryClient({
-  defaultOptions:{
-    queries:{
-      refetchOnWindowFocus: true,
-      refetchOnmount: false,
-      refetchOnReconnect: false,
-      retry: false,
-      staleTime: 1000 * 60 * 60 * 24,
-    }
-  }
-})
+const queryClient = new QueryClient()
 
 localStorage.setItem('check', "false")
 localStorage.setItem('companyName','')

@@ -72,8 +72,35 @@ input::placeholder{
   width:500px!important;
 }
 
+.wider-fifty{
+  width:50%!important;
+}
+
 .wider-hundert{
   width:100%!important;
+}
+
+.submit-button-small{
+  cursor: pointer;
+  background-color:#001628;
+  outline:none;
+  border:none;
+  color:#99D9D9;
+  border-radius: 4px;
+  font-size: 17px;
+}
+
+.submit-button-small:hover{
+  color:#E9072B;
+}
+
+.delete-button{
+  background-color:#E9072B;
+  outline:none;
+  border:none;
+  border-radius: 4px;
+  font-size: 14px;
+  color:white;
 }
 
 .submit-button,
@@ -181,6 +208,17 @@ input::placeholder{
   overflow-y: none;
 }
 
+.control-center-guest{
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 139px);
+  overflow-y: none;
+}
+
 ::-webkit-scrollbar {
   display:none;
+}
+
+.margin-top-15-px{
+  margin-top: 15px;
 }

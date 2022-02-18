@@ -1,4 +1,4 @@
-//import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import React from 'react'
 import { Navbar } from "./components/Elements/Navigation/Navbar/Navbar";
 import {
@@ -8,7 +8,9 @@ import {
 } from "react-router-dom";
 import { Login } from "./components/Login/Login";
 import { Register } from "./components/Register/Register";
+import {RegisterSlug} from './components/Register/RegisterSlug'
 import { Team } from "./components/Team/Team";
+import { GuestTeam } from "./components/Team/GuestTeam";
 import { Profile } from "./components/Profile/Profile";
 import { PendingTeam } from "./components/Team/PendingTeam";
 import { EditUser } from './components/EditUser/EditUser'
@@ -27,8 +29,48 @@ import { persistStore } from 'redux-persist'
 import store from './redux/store'
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import ThemeContext, { themes }  from './context/useTheme'
 
 function App() {
+
+  const [themeIcon, setThemeIcon] = useState(true)
+  const [theme, setTheme] = useState(themes.dark)
+  const [theme1, setTheme1] = useState(themes.dark1)
+  const [fontColor, setFontColor] = useState(themes.fontColor)
+
+  const toggleTheme = () => {
+    if (theme === themes.dark) {
+      setThemeIcon(false)
+      setTheme(null)
+      setTheme1(null)
+      setFontColor(null)
+      localStorage.setItem("theme", "light")
+    }
+      else {
+      setThemeIcon(true)
+      setTheme(themes.dark)
+      setTheme1(themes.dark1)
+      setFontColor(themes.fontColor)
+      localStorage.setItem("theme", "dark")
+    }
+  }
+
+    useEffect(()=>{
+        const localStorageTheme = window.localStorage.getItem("theme")
+        if (localStorageTheme === "light") {
+              setThemeIcon(false)
+              setTheme(null)
+              setTheme1(null)
+              setFontColor(null)
+            }
+            else {
+              setThemeIcon(true)
+              setTheme(themes.dark)             
+              setTheme1(themes.dark1)
+              setFontColor(themes.fontColor)
+            }
+    },[]);
+
 
   const persistor = persistStore(store)
 
@@ -36,15 +78,17 @@ function App() {
     <PersistGate loading={null} persistor={persistor}>
       <DndProvider backend={HTML5Backend}>
         <Router>
+        <ThemeContext.Provider value={{value:[theme, setTheme], value2:[theme1, setTheme1], value3:[fontColor, setFontColor]}}>
           <div className="wrapper">
-            <Navbar />
-            <div className="panel">
+            <Navbar themeIcon={themeIcon} toggleTheme={toggleTheme}/>
+            <div className="panel" style={theme1}>
               <UserNav />
               <div className="control">
                   <Routes>
                     <Route exact path="/login" element={<GuestRoute redirect="/admin"><Login /></GuestRoute>} />
                     <Route exact path="/join" element={<GuestRoute redirect="/admin"><Register /></GuestRoute>} />
-                    <Route exact path="/team/:slug" element={<GuestRoute redirect="/login"><Team /></GuestRoute>} />
+                    <Route exact path="/join/:slug" element={<GuestRoute redirect="/admin"><RegisterSlug /></GuestRoute>} />
+                    <Route exact path="/team/:slug" element={<GuestRoute redirect="/login"><GuestTeam /></GuestRoute>} />
                     <Route exact path="/team" element={<UserRoute redirect="/login"><Team /></UserRoute>} />
                     <Route exact path="/questions" element={<UserRoute redirect="/login"><Questions /></UserRoute>} />
                     <Route exact path="/team/pending" element={<AdminRoute redirect="/login" redirectUser="/team"><PendingTeam /></AdminRoute>} />
@@ -59,6 +103,7 @@ function App() {
               </div>
             </div>
           </div>
+          </ThemeContext.Provider>
         </Router>
       </DndProvider>
     </PersistGate>

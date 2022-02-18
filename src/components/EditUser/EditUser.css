@@ -11,6 +11,13 @@
     width: 45%;
 }
 
+.edit-pending-panel-column-two{
+    display: flex;
+    flex-direction: column;
+    padding:15px;
+    width: 55%;
+}
+
 .edit-pending-panel-column-one label{
     margin-top:0px;
 }

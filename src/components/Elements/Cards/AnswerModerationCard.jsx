@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import "./AnswerCard.css";
-import { FileUpload } from "../FileUpload/FileUpload";
-import { useSelector } from "react-redux";
+import React, { useState,useEffect,useRef } from "react";
+import "./AnswerModerationCard.css";
 import axiosConfig from "../../../config/axiosConfig";
 import { useMutation } from "react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,24 +8,25 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import placeholderImage from "../../../assets/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg";
+import { FileUpload } from "../FileUpload/FileUpload";
 
-export const AnswerCard = (props) => {
-  const user = useSelector((state) => state.user);
-  const profile = user.profile;
+export const AnswerModerationCard = (props) => {
+  const profile = props.profileId;
   var [index, setIndex] = useState(0);
+  var answerExistCheck = false;
+  const [image, setImage] = useState({ formData: null, image: null });
   var question = props.questions[0].id;
+  var existingAnswer = "";
+  const fileInput = useRef(null);
+  const fileReader = new FileReader();
+  var url = ''
+  var editId = -5
   const [answerData, setAnswerData] = useState({
     answer: '',
     question: question,
     profile: profile,
   });
-  const fileInput = useRef(null);
-  const fileReader = new FileReader();
-  var editId = -5
-  var answerExistCheck = false;
-  var existingAnswer = "";
-  var url = ''
-  const [image, setImage] = useState({ formData: null, image: null });
+  console.log(props.questions)
 
   const handleIncrement = (event) => {
     event.preventDefault()
@@ -111,21 +110,6 @@ export const AnswerCard = (props) => {
       }
   });
 
-  const mutationImage = useMutation(
-    (formData) => {
-      return axiosConfig.post("/upload", formData);
-    },
-    {
-      onSuccess: (response) => {
-        url = response.data[0].url
-        //NESTO JE SETANSWERDATA OVDE PRAVIO PROBLEM I BRISAO URL PRILIKOM SVAKOG DODAVANJA NEPOSREDNO 
-        //I ZATO SAM STAVIO OVAKO
-        const data = { data: {answer:url,question:answerData.question,profile:answerData.profile} };
-        mutation.mutate(data);
-      },
-    }
-  );
-
   const mutationEdit = useMutation((data) => {
     return axiosConfig.put(`/answers/${editId}`, data);
   },{
@@ -149,7 +133,23 @@ export const AnswerCard = (props) => {
     }
   );
 
-  const handleSubmitAnswerData = () => {
+  const mutationImage = useMutation(
+    (formData) => {
+      return axiosConfig.post("/upload", formData);
+    },
+    {
+      onSuccess: (response) => {
+        url = response.data[0].url
+        //NESTO JE SETANSWERDATA OVDE PRAVIO PROBLEM I BRISAO URL PRILIKOM SVAKOG DODAVANJA NEPOSREDNO 
+        //I ZATO SAM STAVIO OVAKO
+        const data = { data: {answer:url,question:answerData.question,profile:answerData.profile} };
+        mutation.mutate(data);
+      },
+    }
+  );
+
+  const handleSubmitAnswerData = (event) => {
+    event.preventDefault();
     if (image.formData && !answerExistCheck) {
       mutationImage.mutate(image.formData);
     } else if (answerData.answer && !answerExistCheck) {
@@ -189,64 +189,68 @@ export const AnswerCard = (props) => {
   }, [answerExistCheck,index]);
 
   return (
-    <div className="answer-card">
-      <div className="answer-card-row-one">
-        <p className="answer-title">
+    <div className="answer-card-moderated">
+      <div className="answer-card-row-one-moderated">
+        <p className="answer-title-moderated">
           Question {index + 1} : {props.questions[index].attributes.text}
         </p>
       </div>
-      <div className="answer-card-row-two">
+      <div className="answer-card-row-two-moderated">
         {props.questions[index].attributes.type === "image" ? (
-          <span className="answer-card-row-two-sub-layer">
+          <span className="answer-card-row-two-sub-layer-moderated">
             <div>
               <img
-                className="answer-logo"
+                className="answer-logo-moderated"
                 src={image.image ? image.image : placeholderImage}
                 alt="#"
               />
             </div>
-            <div className="answer-card-row-two-submit-area">
+            <div className="answer-card-row-two-submit-area-moderated">
+                <div className="wider-fifty">
               <FileUpload
                 fileInput={fileInput}
+                widerHundert="wider-hundert"
                 handleFileClick={handleFileClick}
                 handleFileChange={handleFileChange}
               />
+                </div>
+                <div className="wider-fifty">
               <button
-                className="submit-button file-upload-button"
+                className="submit-button file-upload-button wider-hundert"
                 onClick={handleSubmitAnswerData}
               >
                 Save
               </button>
+                </div>
             </div>
           </span>
         ) : (
-          <span className="answer-card-row-two-sub-layer-variation">
+          <span className="answer-card-row-two-sub-layer-variation-moderated">
             <input
               value={answerData.answer}
               type="text"
               name="answer"
-              className="wider-2x"
+              className="wider-hundert"
               onChange={handleAnswerText}
             />
             <div className="answer-card-row-two-submit-area-variation">
-            <button className="submit-button file-upload-button" onClick={handleSubmitAnswerData}>
+            <button className="submit-button file-upload-button wider-hundert" onClick={handleSubmitAnswerData}>
               Save
             </button>
             </div>
           </span>
         )}
-      </div>
-      <div className="answer-card-row-three">
-        <button className="arrow-button" onClick={handleDecrement}>
+        </div>
+      <div className="answer-card-row-three-moderated">
+        <button className="arrow-button-moderated" onClick={handleDecrement}>
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
-        <span className="answer-number">
+        <span className="answer-number-moderated">
           {index + 1}/{props.questions.length}
         </span>
-        <button className="arrow-button" onClick={handleIncrement}>
+        <button className="arrow-button-moderated" onClick={handleIncrement}>
           <FontAwesomeIcon icon={faChevronRight} />
-        </button>
-      </div>
+        </button></div>
     </div>
   );
 };
