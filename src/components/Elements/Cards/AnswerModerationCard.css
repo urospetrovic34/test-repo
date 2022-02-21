@@ -89,3 +89,9 @@
 .answer-title-moderated{
     font-size:23px;
 }
+
+@media screen and (max-width: 676px) {
+  .edit-pending-panel {
+    flex-direction: column;
+  }
+}

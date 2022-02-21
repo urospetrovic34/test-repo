@@ -63,9 +63,3 @@
         display:none;
     }
 }
-
-@media screen and (max-width:500px){
-    .admin-option, .admin-label-option-label {
-        font-size: 12px;
-    }
-}

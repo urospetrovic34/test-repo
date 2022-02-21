@@ -8,11 +8,14 @@ import { AnswerModerationCard } from "../Elements/Cards/AnswerModerationCard";
 import { Spinner } from "../Elements/Spinner/Spinner";
 import { useMutation } from "react-query";
 import axiosConfig from "../../config/axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 export const EditPendingUser = (props) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const profileData = location.state;
   console.log(profileData.profile.id);
+  const [sendCheck, setSendCheck] = useState(false);
   const allCompanyQuestions = useCompanyQuestions();
   let questionArray = [];
   const [updatedProfile, setUpdatedProfile] = useState({
@@ -75,19 +78,34 @@ export const EditPendingUser = (props) => {
 
   const mutationDelete = useMutation(() => {
     return axiosConfig.delete(`/profiles/${profileData.profile.id}`);
+  },{
+    onSuccess: () => {
+      alert("User is now deleted")
+      navigate("/team/pending")
+    },
   });
 
   const mutationApprove = useMutation(() => {
     let data = { data: { status: "published" } };
     return axiosConfig.put(`/profiles/${profileData.profile.id}`, data);
+  },{
+    onSuccess: () => {
+      alert("User is now published")
+      navigate("/team/pending")
+    },
   });
 
   const mutation = useMutation(
     (files) => {
+      console.log(files)
       return axiosConfig.post("/upload", files);
     },
     {
+      onMutate:async () => {
+        return setSendCheck(true)
+      },
       onSuccess: (resp) => {
+        console.log(resp)
         console.log(resp.data[0].id);
         const data = {
           data: { ...updatedProfile, profilePhoto: resp.data[0].id },
@@ -100,8 +118,10 @@ export const EditPendingUser = (props) => {
   const mutationEditProfile = useMutation((data) => {
     return axiosConfig.put(`/profiles/${profileData.profile.id}`, data);
   },{
+    onMutate:async () => {
+      return setSendCheck(true)
+    },
     onSuccess: () => {
-      console.log("USPESNO")
       window.location.reload()
     },
   });
@@ -110,6 +130,7 @@ export const EditPendingUser = (props) => {
     event.preventDefault();
     if (updatedProfile.logo) {
       const files = updatedProfile.logo;
+      console.log(files)
       mutation.mutate(files);
     } else {
       const data = { data: { name: updatedProfile.name } };
@@ -127,12 +148,12 @@ export const EditPendingUser = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileCheck]);
 
-  return allCompanyQuestions.status === "success" && questionArray !== [] ? (
+  return allCompanyQuestions.status === "success" && questionArray.length !== 0 && !sendCheck ? (
     <div className="profile-center">
+      <form className="margin-top-15-px">
       <span className="profile-header">
         <PendingHeader handleApprove={handleApprove} handleDelete={handleDelete}/>
       </span>
-      <form className="margin-top-15-px">
         <div className="edit-pending-panel">
           <div className="edit-pending-panel-column-one">
             <div className="edit-pending-panel-column-one-row-one">
@@ -172,6 +193,52 @@ export const EditPendingUser = (props) => {
               profileId={profileData.profile.id}
               questions={questionArray}
             />
+          </div>
+        </div>
+      </form>
+    </div>
+  ) : allCompanyQuestions.status === "success" && questionArray.length === 0 ? (
+    <div className="profile-center">
+      <form className="margin-top-15-px">
+      <span className="profile-header">
+        <PendingHeader handleApprove={handleApprove} handleDelete={handleDelete}/>
+      </span>
+        <div className="edit-pending-panel">
+          <div className="edit-pending-panel-column-one">
+            <div className="edit-pending-panel-column-one-row-one">
+              <label htmlFor="">Name</label>
+              <input
+                value={updatedProfile.name}
+                className="wider-hundert"
+                type="text"
+                placeholder="Enter profile name"
+                name="profile-name"
+                onChange={handleProfileNameChange}
+              />
+            </div>
+            <div className="edit-pending-panel-column-one-row-two">
+              <img
+                className="profile-moderate-logo"
+                src={
+                  updatedProfile.logo
+                    ? updatedProfile.image
+                    : profileData.profile.attributes.profilePhoto.data
+                        .attributes.url
+                }
+                alt="#"
+              />
+              <FileUpload
+                fileInput={fileInput}
+                widerHundert="wider-hundert"
+                className="company-width"
+                handleFileClick={handleFileClick}
+                handleFileChange={handleFileChange}
+              />
+              <button className="submit-button wider-hundert" onClick={handleEditProfile}>Save</button>
+            </div>
+          </div>
+          <div className="edit-pending-panel-column-two">
+            <p>No questions available</p>
           </div>
         </div>
       </form>

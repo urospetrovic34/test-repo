@@ -22,7 +22,7 @@ export const QuestionCard = (props) => {
                 <button className="submit-button-small" onClick={() => props.handleOrderDown(props.id)}><FontAwesomeIcon icon={faChevronDown} /></button>
             </div>
             <div className="question-column-two">
-                <p>Question {props.number} - {firstLetter(props.type)}</p>
+                <p>Question {props.number} - {firstLetter(props.type).replace(/_|-|\\. /g, ' ')}</p>
                 <p>{firstLetter(props.text)}</p>
             </div>
             {

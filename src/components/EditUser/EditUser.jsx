@@ -125,12 +125,12 @@ export const EditUser = () => {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profileCheck]);
-    return allCompanyQuestions.status === "success" && questionArray !== [] ? (
+    return allCompanyQuestions.status === "success" && questionArray.length !== 0 ? (
         <div className="profile-center">
+          <form className="margin-top-15-px">
           <span className="profile-header">
             <EditUserHeader handleApprove={handleApprove} handleDelete={handleDelete}/>
           </span>
-          <form className="margin-top-15-px">
             <div className="edit-pending-panel">
               <div className="edit-pending-panel-column-one">
                 <div className="edit-pending-panel-column-one-row-one">
@@ -174,6 +174,52 @@ export const EditUser = () => {
             </div>
           </form>
         </div>
+      ) : allCompanyQuestions.status === "success" && questionArray.length === 0 ? (
+        <div className="profile-center">
+        <form className="margin-top-15-px">
+        <span className="profile-header">
+          <EditUserHeader handleApprove={handleApprove} handleDelete={handleDelete}/>
+        </span>
+          <div className="edit-pending-panel">
+            <div className="edit-pending-panel-column-one">
+              <div className="edit-pending-panel-column-one-row-one">
+                <label htmlFor="">Name</label>
+                <input
+                  value={updatedProfile.name}
+                  className="wider-hundert"
+                  type="text"
+                  placeholder="Enter profile name"
+                  name="profile-name"
+                  onChange={handleProfileNameChange}
+                />
+              </div>
+              <div className="edit-pending-panel-column-one-row-two">
+                <img
+                  className="profile-moderate-logo"
+                  src={
+                    updatedProfile.logo
+                      ? updatedProfile.image
+                      : profileData.profile.attributes.profilePhoto.data
+                          .attributes.url
+                  }
+                  alt="#"
+                />
+                <FileUpload
+                  fileInput={fileInput}
+                  widerHundert="wider-hundert"
+                  className="company-width"
+                  handleFileClick={handleFileClick}
+                  handleFileChange={handleFileChange}
+                />
+                <button className="submit-button wider-hundert" onClick={handleEditProfile}>Save</button>
+              </div>
+            </div>
+            <div className="edit-pending-panel-column-two">
+            <p>No questions available</p>
+            </div>
+          </div>
+        </form>
+      </div>
       ) : (
         <div className="control-center">
           <Spinner />

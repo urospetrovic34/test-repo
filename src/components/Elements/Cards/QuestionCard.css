@@ -41,10 +41,13 @@
     cursor: pointer;
 }
 
-.edit-question-button{
-    background-color:green;
-    outline:none;
+.edit-question-button {
+    background-color: #99d9d9;
     border: none;
+    border-radius: 4px;
+    color: #001628;
+    font-size: 14px;
+    outline: none;
 }
 
 @media screen and (max-width: 500px) {

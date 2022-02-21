@@ -61,16 +61,13 @@ export const AnswerCard = (props) => {
     }
   };
 
+  // eslint-disable-next-line array-callback-return
   props.questions[index].attributes.answers.data?.map((answer) => {
-    if (answer.attributes.profile.data?.id === profile) {
+    if (answer.attributes.profile.data?.id === user.profile) {
       answerExistCheck = true;
       existingAnswer = answer.attributes.answer;
       editId = answer.id
-      return (existingAnswer, answerExistCheck,editId);
-    } else {
-      answerExistCheck = false;
-      existingAnswer = ''
-      editId = -5
+      console.log(existingAnswer)
       return (existingAnswer, answerExistCheck,editId);
     }
   });
@@ -107,7 +104,7 @@ export const AnswerCard = (props) => {
     return axiosConfig.post("/answers", data);
   },{
       onSuccess:() => {
-          alert("USPESAN ODGOVOR")
+          alert("Answer sent")
       }
   });
 

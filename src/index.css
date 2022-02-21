@@ -198,6 +198,7 @@ input::placeholder{
   padding:15px;
   max-height: calc(100vh - 89px);
   overflow-y: scroll;
+  margin: 0 5px;
 }
 
 .control-center{

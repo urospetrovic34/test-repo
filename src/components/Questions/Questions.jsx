@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import "./Questions.css";
 import { QuestionHeader } from "../Elements/TeamHeader/QuestionHeader";
 import useCompanyQuestions from "../../hooks/questions/useCompanyQuestions";
@@ -16,12 +16,14 @@ export const Questions = () => {
   const authProfile = useAuthProfile();
   let questionArray = [];
   let num = 1;
+  const [deleteCheck,setDeleteCheck] = useState(false)
 
   if (allCompanyQuestions.status === "success") {
-    questionArray = allCompanyQuestions.data.data.data;
-
-    console.log(questionArray)
+    if(allCompanyQuestions.data.data.data.length!==0){
+      questionArray = allCompanyQuestions.data.data.data;
+    }
   }
+  console.log(questionArray)
 
   const mutation = useMutation(async ({ id1, id2, order1, order2 }) => {
     const res1 = await axiosConfig.put(`/questions/${id1}`, {
@@ -38,6 +40,13 @@ export const Questions = () => {
 
   const deleteMutation = useMutation((id) => {
     return axiosConfig.delete(`/questions/${id}`);
+  },{
+    onMutate:async () => {
+      setDeleteCheck(true)
+    },
+    onSuccess: () => {
+      window.location.reload();
+    }
   });
 
   const deleteMutationAnswer = useMutation((id) => {
@@ -99,13 +108,12 @@ export const Questions = () => {
     deleteMutation.mutate(id);
   };
 
-  console.log(user)
-  console.log(questionArray)
 
   return allCompanyQuestions.status === "success" &&
     user.user &&
     user.type === "companyAdmin" &&
-    questionArray !== [] ? (
+    questionArray !== [] &&
+    !deleteCheck ? (
     <div>
       <QuestionHeader />
       <div className="question-panel">
@@ -128,14 +136,24 @@ export const Questions = () => {
       </div>
     </div>
   ) : allCompanyQuestions.status === "success" &&
-    user.user &&
-    user.type === "companyUser" &&
-    questionArray !== [] &&
-    authProfile.status === 'success' ? (
+  user.user &&
+  user.type === "companyUser" &&
+  questionArray.length!==0 &&
+  authProfile.status === 'success' ? (
+  <div>
+    <QuestionHeader />
     <div>
-      <QuestionHeader />
+      <AnswerCard questions={questionArray}/>
+    </div>
+  </div>
+) : allCompanyQuestions.status === "success" &&
+  user.user &&
+  user.type === "companyUser" &&
+  questionArray.length===0 &&
+  authProfile.status === 'success' ? (
+    <div className="question-panel">
       <div>
-        <AnswerCard questions={questionArray}/>
+        <p>No Questions available</p>
       </div>
     </div>
   ) : (
@@ -144,3 +162,4 @@ export const Questions = () => {
     </div>
   );
 };
+/**/

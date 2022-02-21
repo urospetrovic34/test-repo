@@ -53,3 +53,9 @@
     color:#E9072B;
   }
 }
+
+@media screen and (max-width: 667px) {
+  .side-nav {
+    width: 100%;
+  }
+}

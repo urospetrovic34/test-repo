@@ -60,16 +60,12 @@ export const AnswerModerationCard = (props) => {
     }
   };
 
+  // eslint-disable-next-line array-callback-return
   props.questions[index].attributes.answers.data?.map((answer) => {
     if (answer.attributes.profile.data?.id === profile) {
       answerExistCheck = true;
       existingAnswer = answer.attributes.answer;
       editId = answer.id
-      return (existingAnswer, answerExistCheck,editId);
-    } else {
-      answerExistCheck = false;
-      existingAnswer = ''
-      editId = -5
       return (existingAnswer, answerExistCheck,editId);
     }
   });
@@ -252,5 +248,5 @@ export const AnswerModerationCard = (props) => {
           <FontAwesomeIcon icon={faChevronRight} />
         </button></div>
     </div>
-  );
+  )
 };

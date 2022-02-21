@@ -22,7 +22,7 @@ export const AddQuestion = () => {
     order: "",
     company: user.company,
   });
-  const allQuestions = useQuestions();
+  let allQuestions = useQuestions();
   const navigate = useNavigate();
   let orders = [];
   let maxOrder = [];

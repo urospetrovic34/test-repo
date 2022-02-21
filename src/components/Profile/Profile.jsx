@@ -13,8 +13,8 @@ export const Profile = () => {
   const profile = user.profile;
   const authProfile = useAuthProfile();
   let profileCheck = false;
-  let sendCheck = false;
-  //let [sendCheck, setSendCheck] = useState(false);
+  //let sendCheck = false;
+  const [sendCheck, setSendCheck] = useState(false);
   const fileInput = useRef(null);
   const fileReader = new FileReader();
   console.log(authProfile);
@@ -23,7 +23,6 @@ export const Profile = () => {
     logo: null,
     image: null,
   });
-  console.log(updatedProfile)
 
   if (authProfile.status === "success") {
     if (!profileCheck) {
@@ -74,9 +73,15 @@ export const Profile = () => {
 
   const mutation = useMutation(
     (files) => {
-      return axiosConfig.post("/upload", files);
+      console.log(updatedProfile)
+      const odg = axiosConfig.post("/upload", files);
+      console.log(odg)
+      return odg
     },
     {
+      onMutate:async () => {
+        return setSendCheck(true)
+      },
       onSuccess: (resp) => {
         console.log(resp.data[0].id);
         const data = {
@@ -90,8 +95,11 @@ export const Profile = () => {
   const mutationEditProfile = useMutation((data) => {
     return axiosConfig.put(`/profiles/${profile}`, data);
   },{
+    onMutate:async () => {
+      return setSendCheck(true)
+    },
     onSuccess: () => {
-      console.log("USPESNO")
+      window.location.reload()
     },
   });
 

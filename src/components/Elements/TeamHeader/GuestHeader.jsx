@@ -7,8 +7,8 @@ export const GuestHeader = (props) => {
   console.log(props.companyData);
 
   const sortOptions = [
-    { value: "published", label: "Last joined" },
-    { value: "pending", label: "First joined" },
+    { value: "asc", label: "First joined" },
+    { value: "desc", label: "Last joined" },
   ];
 
   return (

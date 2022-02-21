@@ -21,27 +21,25 @@ export const Modal = (props) => {
   return (
     <div className="modal">
       <div className="modal-relative-oblast">
-        <div className="modal-user-section">
           <div>
+            <h1 className="modal-title">{props.profile.attributes.name}</h1>
+          </div>
+        <div className="modal-user-section">
             <img
               className="modal-avatar"
               src={props.profile.attributes.profilePhoto.data?.attributes.url}
               alt="$"
             />
-          </div>
-          <div>
-            <h1 className="modal-title">{props.profile.attributes.name}</h1>
-          </div>
         </div>
         <div className="modal-question-section">
           {props.answers.data.data.data?.map((x) => (
             <div>
-              <div>{x.attributes.question.data?.attributes.text}</div>
+              <div className="question-text"> • {x.attributes.question.data?.attributes.text}</div>
               <div>
                 {x.attributes.question.data?.attributes.type === "image" ? (
                   <img src={x.attributes.answer} alt="#" />
                 ) : (
-                  <p>{x.attributes.answer}</p>
+                  <p className="answer-text">{x.attributes.answer}</p>
                 )}
               </div>
             </div>

@@ -36,6 +36,11 @@ export const Card = (props) => {
 
     const mutationDelete = useMutation(() => {
         return axiosConfig.delete(`/profiles/${props.id}`);
+    },{
+        onSuccess: () => {
+          alert("User is now deleted")
+          window.location.reload();
+        },
       });
 
     return (

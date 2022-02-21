@@ -5,9 +5,10 @@ import { FileUpload } from "../Elements/FileUpload/FileUpload";
 import useCompany from "../../hooks/companies/useCompany";
 import { Spinner } from "../Elements/Spinner/Spinner";
 import { DateShow } from "../Elements/Date/DateShow";
-import {useMutation} from 'react-query'
-import { useSelector } from 'react-redux'
-import axiosConfig from '../../config/axiosConfig'
+import { useMutation } from "react-query";
+import { useSelector } from "react-redux";
+import axiosConfig from "../../config/axiosConfig";
+import placeholder from "../../assets/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg";
 
 export const Company = () => {
   const [updatedCompany, setUpdatedCompany] = useState({
@@ -17,10 +18,10 @@ export const Company = () => {
     image: null,
   });
 
-  const user = useSelector((state) => state.user)
+  const user = useSelector((state) => state.user);
   const company = useCompany();
   let companyCheck = false;
-  let [sendCheck,setSendCheck] = useState(false)
+  let [sendCheck, setSendCheck] = useState(false);
   const fileInput = useRef(null);
   const fileReader = new FileReader();
 
@@ -46,7 +47,7 @@ export const Company = () => {
   const handleFileChange = (event) => {
     event.preventDefault();
     if (event.target.files[0] !== undefined) {
-      console.log(event.target.files[0])
+      console.log(event.target.files[0]);
       const fileUploaded = event.target.files[0];
       const formData = new FormData();
       formData.append("files", fileUploaded);
@@ -68,44 +69,46 @@ export const Company = () => {
       return axiosConfig.post("/upload", files);
     },
     {
-      onMutate:async (data)=>{
-        return setSendCheck(true)
+      onMutate: async () => {
+        return setSendCheck(true);
       },
       onSuccess: (resp) => {
-        console.log(resp.data[0].id);
         const data = { data: { ...updatedCompany, logo: resp.data[0].id } };
         mutationEditCompany.mutate(data);
       },
     }
   );
 
-  const mutationEditCompany = useMutation((data) => {
-    return axiosConfig.put(`/companies/${user.company}`, data);
-  },{
-    onMutate:async (data)=>{
-      return setSendCheck(true)
+  const mutationEditCompany = useMutation(
+    (data) => {
+      return axiosConfig.put(`/companies/${user.company}`, data);
     },
-    onSuccess:()=>{
-      setSendCheck(false)
-      window.location.reload()
+    {
+      onMutate: async (data) => {
+        return setSendCheck(true);
+      },
+      onSuccess: () => {
+        window.location.reload();
+      },
     }
-  });
+  );
 
   const handleEditCompany = (event) => {
     event.preventDefault();
-    if(updatedCompany.logo){
-      const files = updatedCompany.logo
-      mutation.mutate(files)
-    }
-    else{
-      const data = {"data":{"name":updatedCompany.name,"slug":updatedCompany.slug}}
-      mutationEditCompany.mutate(data)
+    if (updatedCompany.logo) {
+      const files = updatedCompany.logo;
+      mutation.mutate(files);
+    } else {
+      const data = {
+        data: { name: updatedCompany.name, slug: updatedCompany.slug },
+      };
+      mutationEditCompany.mutate(data);
     }
   };
 
   useEffect(() => {
     if (companyCheck) {
-      console.log(company.data.data.data.attributes.name)
+      console.log(company.data.data.data.attributes.name);
       setUpdatedCompany({
         ...updatedCompany,
         name: company.data.data.data.attributes.name,
@@ -140,7 +143,11 @@ export const Company = () => {
                 src={
                   updatedCompany.logo
                     ? updatedCompany.image
-                    : company.data.data.data.attributes.logo.data.attributes.url
+                    : company.data.data.data?.attributes.logo.data?.attributes
+                        .url
+                    ? company.data.data.data?.attributes.logo.data?.attributes
+                        .url
+                    : !updatedCompany.logo && placeholder
                 }
                 alt="#"
               />
@@ -168,7 +175,10 @@ export const Company = () => {
             </div>
           </div>
           <div className="company-panel-row-three">
-            <button className="submit-button company-button" onClick={handleEditCompany}>
+            <button
+              className="submit-button company-button"
+              onClick={handleEditCompany}
+            >
               Save
             </button>
           </div>
